@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>She Speaks: The Many Faces of Her™</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f5f0e8 0%, #e8dfd0 100%);
+            min-height: 100vh;
+            color: #3d2817;
+        }
+
+        .app-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #8b4513;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #5c4033;
+            font-style: italic;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .welcome-prompt {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: #4a3728;
+        }
+
+        .emotion-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .emotion-btn {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
+            border: 2px solid #c4a57b;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 1rem;
+            color: #3d2817;
+        }
+
+        .emotion-btn:hover {
+            background: linear-gradient(135deg, #e8dfd0 0%, #d4c5b0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .emotion-btn.selected {
+            background: linear-gradient(135deg, #c4a57b 0%, #a48860 100%);
+            border-color: #8b4513;
+        }
+
+        .direct-input {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #c4a57b;
+        }
+
+        .direct-input label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            color: #5c4033;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #c4a57b;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #8b4513 0%, #6b3410 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #6b3410 0%, #4b2408 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #5c4033;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #8b4513;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e0d5c7;
+        }
+
+        .results-header h2 {
+            font-size: 2rem;
+            color: #8b4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e0d5c7;
+        }
+
+        .result-section:last-child {
+            border-bottom: none;
+        }
+
+        .lens-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #8b4513;
+        }
+
+        .lens-icon {
+            font-size: 2rem;
+        }
+
+        .result-content {
+            line-height: 1.9;
+            font-size: 1.05rem;
+            color: #4a3728;
+            white-space: pre-wrap;
+        }
+
+        .fracta-box {
+            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 4px solid #8b4513;
+        }
+
+        .fracta-item {
+            margin-bottom: 1rem;
+        }
+
+        .fracta-item strong {
+            color: #8b4513;
+        }
+
+        .starter-pack {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+
+        .starter-pack li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .starter-pack li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #8b4513;
+        }
+
+        .image-preview {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-menu {
+            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .action-menu h3 {
+            color: #8b4513;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #c4a57b;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-align: center;
+            font-family: 'Georgia', serif;
+        }
+
+        .action-btn:hover {
+            background: #8b4513;
+            color: white;
+            border-color: #8b4513;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: #5c4033;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #721c24;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #e8dfd0 0%, #c4a57b 100%);
+            color: #3d2817;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #c4a57b 0%, #a48860 100%);
+            transform: translateY(-2px);
+        }
+
+        .saved-library {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .saved-library h3 {
+            color: #8b4513;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .saved-item {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #8b4513;
+        }
+
+        .saved-item:hover {
+            background: linear-gradient(135deg, #e8dfd0 0%, #d4c5b0 100%);
+            transform: translateX(4px);
+        }
+
+        .saved-item-title {
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 0.25rem;
+        }
+
+        .saved-item-date {
+            font-size: 0.85rem;
+            color: #5c4033;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .welcome-section {
+                padding: 1.5rem;
+            }
+
+            .results-container {
+                padding: 1.5rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Emotional entry paths mapping
+        // Includes women from Ethiopian Orthodox Tewahedo Bible (81 books)
+        const EMOTIONAL_PATHS = [
+            {
+                label: "I feel like I'm in the shadows. Overlooked. Forgotten.",
+                women: ["Hagar", "Leah", "Woman with the Issue of Blood", "Rizpah"],
+                theme: "visibility and divine acknowledgment"
+            },
+            {
+                label: "I've made mistakes I can't seem to outgrow.",
+                women: ["Rahab", "Mary Magdalene", "Bathsheba", "Woman at the Well"],
+                theme: "redemption through faith and legacy"
+            },
+            {
+                label: "I'm standing by someone else's pain and trying to stay strong.",
+                women: ["Naomi", "Widow of Zarephath", "Martha", "Mary (at the cross)"],
+                theme: "carer and intercessor archetypes"
+            },
+            {
+                label: "I'm being called to lead, but it's hard and lonely.",
+                women: ["Deborah", "Esther", "Priscilla", "Judith (Apocrypha)"],
+                theme: "leadership under pressure and divine timing"
+            },
+            {
+                label: "I'm waiting—faithfully, painfully, uncertainly.",
+                women: ["Hannah", "Sarah", "Elizabeth", "Anna the Prophetess"],
+                theme: "waiting met with prophecy and promise"
+            },
+            {
+                label: "I want to reflect, but I don't know where to begin.",
+                women: ["Mary (mother of Jesus)", "Anna the Prophetess", "Lydia", "Susanna (Apocrypha)"],
+                theme: "spiritual contemplation and witness"
+            }
+        ];
+
+        const SYSTEM_PROMPT = `You are "She Speaks: The Many Faces of Her™", a four-voice interpretation engine that gives biblical women space to speak through:
+
+IMPORTANT BIBLICAL SOURCE GUIDELINES:
+• Use MODERN, accessible translations (NIV, NLT, ESV, NRSV) - NEVER King James Version (KJV)
+• Include the ETHIOPIAN ORTHODOX TEWAHEDO BIBLE canon, which contains:
+  - All 81 books (vs. 66 in Protestant canon)
+  - Additional texts: Book of Enoch, Book of Jubilees, Esdras, Meqabyan (Ethiopian Maccabees)
+  - Broader African theological perspectives on biblical women
+• When relevant, draw from apocryphal/deuterocanonical sources that expand women's stories
+• Prioritize translations that use inclusive, dignified language for women
+
+1. 🕊 Abide 365 – Spiritual Extraction
+• Produce a devotion-style reflection (≈150-200 words)
+• Highlight trials, faith, flaws, obedience, triumphs
+• Reference 2-4 scripture passages naturally in the text (use modern translations only)
+• If the woman appears in Ethiopian canon or apocryphal texts, note this enrichment
+• End with a soft giving prompt
+
+2. 🧩 FractaSelf – Identity & Action-Figure Archetype
+• Assign a FractaType (e.g., The Covenant Keeper, The Reclaimed Witness)
+• Write a 2-sentence identity reflection
+• List a 3-5-item Starter Pack
+• Provide a Toy-box Image Prompt following this template:
+"Create a clean, single-image action-figure packaging illustration of '[FractaType]'. Include symbolic accessories: [list items]. One figure only, inside a clear plastic toy box. Minimalist packaging, bold or pastel tones."
+• Add a modern caption (max 45 words)
+
+3. 🌈 The Arc – Narrative Retelling
+• Retell her story as a short mythic fable (≈200-250 words)
+• Do NOT use biblical names or verse numbers—only allegory and symbolism
+• Draw from the fuller Ethiopian canon when it adds depth
+• End with a single-line moral or takeaway
+
+4. 🪞 Satirical Quill™ – Holy Roast
+• Deliver a witty, reverent roast (≈120-150 words) that exposes ironies or cultural blind spots
+• Dry, layered, never cruel
+• If relevant, note how different canons (Ethiopian, Catholic, Protestant) treat her story differently
+• Conclude with: "In jest, truth; in truth, jest. — The Quill"
+
+Format your response exactly as:
+
+She Speaks: The Many Faces of {Her Name}
+
+🕊 Abide 365
+[devotional reflection]
+
+🧩 FractaSelf
+• FractaType: …
+• Identity Reflection: …
+• Starter Pack:
+  - [item 1]
+  - [item 2]
+  - [item 3]
+• Toy-box Image Prompt: …
+• Caption: …
+
+🌈 The Arc
+[mythic retelling]
+
+🪞 Satirical Quill™
+[roast text]
+In jest, truth; in truth, jest. — The Quill`;
+
+        // LocalStorage helper functions
+        const StorageHelper = {
+            saveInterpretation: (womanName, content, imageUrl = null) => {
+                const saved = JSON.parse(localStorage.getItem('sheSpeaksLibrary') || '[]');
+                const newEntry = {
+                    id: Date.now(),
+                    womanName,
+                    content,
+                    imageUrl,
+                    date: new Date().toISOString()
+                };
+                saved.unshift(newEntry);
+                localStorage.setItem('sheSpeaksLibrary', JSON.stringify(saved.slice(0, 20))); // Keep last 20
+                return newEntry;
+            },
+
+            getLibrary: () => {
+                return JSON.parse(localStorage.getItem('sheSpeaksLibrary') || '[]');
+            },
+
+            deleteEntry: (id) => {
+                const saved = JSON.parse(localStorage.getItem('sheSpeaksLibrary') || '[]');
+                const filtered = saved.filter(entry => entry.id !== id);
+                localStorage.setItem('sheSpeaksLibrary', JSON.stringify(filtered));
+            }
+        };
+
+        // Export functions
+        const ExportHelper = {
+            downloadJournalPDF: (womanName, content) => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Title
+                doc.setFontSize(20);
+                doc.setTextColor(139, 69, 19);
+                doc.text(`She Speaks: ${womanName}`, 20, 20);
+                
+                // Content
+                doc.setFontSize(11);
+                doc.setTextColor(60, 40, 23);
+                
+                const lines = doc.splitTextToSize(content, 170);
+                doc.text(lines, 20, 35);
+                
+                // Footer
+                const pageCount = doc.internal.getNumberOfPages();
+                doc.setFontSize(9);
+                doc.setTextColor(92, 64, 51);
+                doc.text('© Adenike Omoregbee. All rights reserved.', 20, 280);
+                
+                doc.save(`she-speaks-${womanName.toLowerCase().replace(/\s/g, '-')}.pdf`);
+            },
+
+            downloadPodcastScript: (womanName, content) => {
+                const script = `She Speaks: The Many Faces of Her™
+Podcast Script for ${womanName}
+
+[OPENING]
+She speaks. The many faces of ${womanName}.
+
+${content}
+
+[CLOSING]
+Let her speak. And maybe, hear yourself too.
+
+---
+© Adenike Omoregbee. All rights reserved.`;
+
+                const blob = new Blob([script], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `podcast-script-${womanName.toLowerCase().replace(/\s/g, '-')}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        };
+
+        function App() {
+            const [stage, setStage] = useState('welcome'); // welcome, loading, results, library
+            const [selectedEmotion, setSelectedEmotion] = useState(null);
+            const [directInput, setDirectInput] = useState('');
+            const [results, setResults] = useState(null);
+            const [error, setError] = useState(null);
+            const [footerOn, setFooterOn] = useState(true);
+            const [library, setLibrary] = useState([]);
+            const [generatedImage, setGeneratedImage] = useState(null);
+
+            useEffect(() => {
+                setLibrary(StorageHelper.getLibrary());
+            }, []);
+
+            const generateInterpretation = async (womanName) => {
+                setStage('loading');
+                setError(null);
+                setGeneratedImage(null);
+
+                try {
+                    // Call your Netlify serverless function instead of direct API call
+                    const response = await fetch('/.netlify/functions/generate-interpretation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            womanName: womanName,
+                            systemPrompt: SYSTEM_PROMPT
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to generate interpretation');
+                    }
+
+                    const data = await response.json();
+                    
+                    const newResults = {
+                        woman: womanName,
+                        content: data.content,
+                        imageUrl: null
+                    };
+                    
+                    setResults(newResults);
+                    StorageHelper.saveInterpretation(womanName, data.content);
+                    setLibrary(StorageHelper.getLibrary());
+                    setStage('results');
+
+                    // Extract image prompt and generate image
+                    const imagePromptMatch = data.content.match(/Toy-box Image Prompt:\s*(.+?)(?:\n|$)/i);
+                    if (imagePromptMatch) {
+                        generateImage(imagePromptMatch[1]);
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                    setError('Unable to generate interpretation. Please try again.');
+                    setStage('welcome');
+                }
+            };
+
+            const generateImage = async (prompt) => {
+                try {
+                    const response = await fetch('/.netlify/functions/generate-image', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ prompt })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        setGeneratedImage(data.imageUrl);
+                    }
+                } catch (err) {
+                    console.error('Image generation failed:', err);
+                    // Silently fail - image is optional
+                }
+            };
+
+            const handleEmotionSelect = (emotion) => {
+                setSelectedEmotion(emotion);
+            };
+
+            const handleEmotionSubmit = () => {
+                if (selectedEmotion && selectedEmotion.women.length > 0) {
+                    generateInterpretation(selectedEmotion.women[0]);
+                }
+            };
+
+            const handleDirectSubmit = () => {
+                if (directInput.trim()) {
+                    generateInterpretation(directInput.trim());
+                }
+            };
+
+            const handleReset = () => {
+                setStage('welcome');
+                setSelectedEmotion(null);
+                setDirectInput('');
+                setResults(null);
+                setError(null);
+                setGeneratedImage(null);
+            };
+
+            const loadFromLibrary = (entry) => {
+                setResults({
+                    woman: entry.womanName,
+                    content: entry.content,
+                    imageUrl: entry.imageUrl
+                });
+                setGeneratedImage(entry.imageUrl);
+                setStage('results');
+            };
+
+            return (
+                <div className="app-container">
+                    <div className="header">
+                        <h1>She Speaks: The Many Faces of Her™</h1>
+                        <p>Four lenses. One voice. Her story reimagined.</p>
+                    </div>
+
+                    {stage === 'welcome' && (
+                        <>
+                            {error && (
+                                <div className="error-message">
+                                    {error}
+                                </div>
+                            )}
+
+                            {library.length > 0 && (
+                                <div className="saved-library">
+                                    <h3>Your Saved Reflections</h3>
+                                    {library.slice(0, 5).map(entry => (
+                                        <div 
+                                            key={entry.id} 
+                                            className="saved-item"
+                                            onClick={() => loadFromLibrary(entry)}
+                                        >
+                                            <div className="saved-item-title">{entry.womanName}</div>
+                                            <div className="saved-item-date">
+                                                {new Date(entry.date).toLocaleDateString()}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            <div className="welcome-section">
+                                <div className="welcome-prompt">
+                                    <p style={{marginBottom: '1.5rem'}}>
+                                        Hello, and welcome to <em>She Speaks: The Many Faces of Her™</em>.
+                                    </p>
+                                    <p style={{marginBottom: '1rem'}}>
+                                        Before we begin, may I ask something quietly?
+                                    </p>
+                                    <p style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#8b4513'}}>
+                                        🌿 What are you walking through right now?
+                                    </p>
+                                </div>
+
+                                <div className="emotion-buttons">
+                                    {EMOTIONAL_PATHS.map((path, index) => (
+                                        <button
+                                            key={index}
+                                            className={`emotion-btn ${selectedEmotion === path ? 'selected' : ''}`}
+                                            onClick={() => handleEmotionSelect(path)}
+                                        >
+                                            • {path.label}
+                                        </button>
+                                    ))}
+                                    <button
+                                        className="emotion-btn"
+                                        onClick={() => generateInterpretation('Random biblical woman')}
+                                    >
+                                        • Can you just surprise me with someone?
+                                    </button>
+                                </div>
+
+                                {selectedEmotion && (
+                                    <div style={{
+                                        marginTop: '1.5rem',
+                                        padding: '1.5rem',
+                                        background: 'rgba(139, 69, 19, 0.1)',
+                                        borderRadius: '8px'
+                                    }}>
+                                        <p style={{marginBottom: '1rem', color: '#5c4033'}}>
+                                            Thank you for sharing. I hear you. Here are some women whose stories might speak to where you are:
+                                        </p>
+                                        <ul style={{marginLeft: '1.5rem', marginBottom: '1rem'}}>
+                                            {selectedEmotion.women.map((woman, idx) => (
+                                                <li key={idx} style={{marginBottom: '0.5rem', color: '#4a3728'}}>
+                                                    {woman}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <p style={{marginBottom: '1rem', fontStyle: 'italic', color: '#5c4033'}}>
+                                            These are stories of {selectedEmotion.theme}.
+                                        </p>
+                                        <button 
+                                            className="submit-btn"
+                                            onClick={handleEmotionSubmit}
+                                        >
+                                            Yes, tell me her story through all four lenses
+                                        </button>
+                                    </div>
+                                )}
+
+                                <div className="direct-input">
+                                    <label>Or... if you already have someone in mind, just type her name or story:</label>
+                                    <div className="input-group">
+                                        <input
+                                            type="text"
+                                            placeholder="e.g., Esther, The Woman at the Well, Ruth..."
+                                            value={directInput}
+                                            onChange={(e) => setDirectInput(e.target.value)}
+                                            onKeyPress={(e) => e.key === 'Enter' && handleDirectSubmit()}
+                                        />
+                                        <button 
+                                            className="submit-btn"
+                                            onClick={handleDirectSubmit}
+                                            disabled={!directInput.trim()}
+                                        >
+                                            Let Her Speak
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )}
+
+                    {stage === 'loading' && (
+                        <div className="welcome-section">
+                            <div className="loading">
+                                <div className="loading-spinner"></div>
+                                <div>Creating space for her to speak...</div>
+                            </div>
+                        </div>
+                    )}
+
+                    {stage === 'results' && results && (
+                        <>
+                            <button className="back-btn" onClick={handleReset}>
+                                ← Explore Another Woman
+                            </button>
+
+                            <div className="results-container">
+                                <div className="results-header">
+                                    <h2>She Speaks: The Many Faces of {results.woman}</h2>
+                                </div>
+
+                                <div style={{whiteSpace: 'pre-wrap', lineHeight: '1.9'}}>
+                                    {results.content}
+                                </div>
+
+                                {generatedImage && (
+                                    <div className="image-preview">
+                                        <h3 style={{color: '#8b4513', marginBottom: '1rem'}}>
+                                            FractaSelf Action Figure Concept
+                                        </h3>
+                                        <img src={generatedImage} alt={`${results.woman} action figure`} />
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="action-menu">
+                                <h3>Would you like to:</h3>
+                                <div className="action-buttons">
+                                    <button className="action-btn" onClick={handleReset}>
+                                        Reflect on another woman
+                                    </button>
+                                    <button 
+                                        className="action-btn" 
+                                        onClick={() => ExportHelper.downloadJournalPDF(results.woman, results.content)}
+                                    >
+                                        Download as Journal PDF
+                                    </button>
+                                    <button 
+                                        className="action-btn" 
+                                        onClick={() => ExportHelper.downloadPodcastScript(results.woman, results.content)}
+                                    >
+                                        Download Podcast Script
+                                    </button>
+                                    <button 
+                                        className="action-btn" 
+                                        onClick={() => alert('Group study guide template will download with discussion questions for each lens!')}
+                                    >
+                                        Generate Group Study Guide
+                                    </button>
+                                    <button 
+                                        className="action-btn" 
+                                        onClick={() => window.open('https://www.linkedin.com/in/adenike-omoregbee', '_blank')}
+                                    >
+                                        Visit Creator on LinkedIn
+                                    </button>
+                                </div>
+                            </div>
+                        </>
+                    )}
+
+                    {footerOn && (
+                        <div className="footer">
+                            📜 Core logic derived from the proprietary system "She Speaks: The Many Faces of Her™" by Adenike Omoregbee. Framework components—Abide 365™, FractaSelf™, The Arc™, and Satirical Quill™—are protected. All rights reserved.
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
