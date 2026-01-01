@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>She Speaks: The Many Faces of Her™</title>
+    <title>She Speaks: The Many Faces of Her™ - Complete Edition</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="She Speaks: The Many Faces of Her™">
+    <meta property="og:description" content="Biblical women reimagined through devotion, identity, narrative, and satire">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
     <style>
         * {
             margin: 0;
@@ -51,80 +58,170 @@
             font-style: italic;
         }
 
-        .welcome-section {
+        .badge {
+            display: inline-block;
+            background: #8b4513;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #c4a57b;
+            border-radius: 8px;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+        }
+
+        .emotional-pathways {
             background: white;
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
             margin-bottom: 2rem;
         }
 
-        .welcome-prompt {
-            font-size: 1.15rem;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            color: #4a3728;
+        .emotional-pathways h3 {
+            color: #8b4513;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
         }
 
-        .emotion-buttons {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .emotion-btn {
-            padding: 1rem 1.5rem;
+        .pathway-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
             background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
             border: 2px solid #c4a57b;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-align: left;
-            font-size: 1rem;
-            color: #3d2817;
+            font-family: 'Georgia', serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
 
-        .emotion-btn:hover {
+        .pathway-btn:hover {
             background: linear-gradient(135deg, #e8dfd0 0%, #d4c5b0 100%);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .emotion-btn.selected {
-            background: linear-gradient(135deg, #c4a57b 0%, #a48860 100%);
-            border-color: #8b4513;
+        .women-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
-        .direct-input {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #c4a57b;
+        .woman-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #8b4513;
         }
 
-        .direct-input label {
-            display: block;
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
+        .woman-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .woman-card h3 {
+            color: #8b4513;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .woman-card .testament {
+            font-size: 0.75rem;
+            color: #8b4513;
+            background: rgba(139, 69, 19, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .woman-card p {
             color: #5c4033;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
-        .input-group {
-            display: flex;
-            gap: 1rem;
+        .interpretation-view {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
         }
 
-        .input-group input {
-            flex: 1;
+        .interpretation-header {
+            text-align: center;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e0d5c7;
+            margin-bottom: 2rem;
+        }
+
+        .interpretation-header h2 {
+            color: #8b4513;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .interpretation-content {
+            line-height: 1.9;
+            font-size: 1.05rem;
+            color: #4a3728;
+            white-space: pre-wrap;
+            margin-bottom: 2rem;
+        }
+
+        .journal-section {
+            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .journal-section h3 {
+            color: #8b4513;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .journal-textarea {
+            width: 100%;
+            min-height: 150px;
             padding: 1rem;
             border: 2px solid #c4a57b;
             border-radius: 8px;
-            font-size: 1rem;
             font-family: 'Georgia', serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            resize: vertical;
         }
 
-        .submit-btn {
-            padding: 1rem 2rem;
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem;
             background: linear-gradient(135deg, #8b4513 0%, #6b3410 100%);
             color: white;
             border: none;
@@ -133,195 +230,25 @@
             font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            text-align: center;
         }
 
-        .submit-btn:hover {
+        .btn:hover {
             background: linear-gradient(135deg, #6b3410 0%, #4b2408 100%);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .submit-btn:disabled {
-            background: #999;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            font-size: 1.2rem;
-            color: #5c4033;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #8b4513;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .results-container {
+        .btn-secondary {
             background: white;
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            margin-bottom: 2rem;
-        }
-
-        .results-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid #e0d5c7;
-        }
-
-        .results-header h2 {
-            font-size: 2rem;
             color: #8b4513;
-            margin-bottom: 0.5rem;
+            border: 2px solid #8b4513;
         }
 
-        .result-section {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid #e0d5c7;
-        }
-
-        .result-section:last-child {
-            border-bottom: none;
-        }
-
-        .lens-title {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: #8b4513;
-        }
-
-        .lens-icon {
-            font-size: 2rem;
-        }
-
-        .result-content {
-            line-height: 1.9;
-            font-size: 1.05rem;
-            color: #4a3728;
-            white-space: pre-wrap;
-        }
-
-        .fracta-box {
-            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
-            padding: 2rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            border-left: 4px solid #8b4513;
-        }
-
-        .fracta-item {
-            margin-bottom: 1rem;
-        }
-
-        .fracta-item strong {
-            color: #8b4513;
-        }
-
-        .starter-pack {
-            list-style: none;
-            padding-left: 0;
-            margin-top: 0.5rem;
-        }
-
-        .starter-pack li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .starter-pack li::before {
-            content: '✦';
-            position: absolute;
-            left: 0;
-            color: #8b4513;
-        }
-
-        .image-preview {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .image-preview img {
-            max-width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .action-menu {
-            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-top: 2rem;
-        }
-
-        .action-menu h3 {
-            color: #8b4513;
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-        }
-
-        .action-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .action-btn {
-            padding: 1rem;
-            background: white;
-            border: 2px solid #c4a57b;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            text-align: center;
-            font-family: 'Georgia', serif;
-        }
-
-        .action-btn:hover {
+        .btn-secondary:hover {
             background: #8b4513;
             color: white;
-            border-color: #8b4513;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            font-size: 0.9rem;
-            color: #5c4033;
-            font-style: italic;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 8px;
-        }
-
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            border-left: 4px solid #721c24;
         }
 
         .back-btn {
@@ -344,44 +271,48 @@
             transform: translateY(-2px);
         }
 
-        .saved-library {
-            background: white;
+        .footer {
+            text-align: center;
             padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            margin-bottom: 2rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: #5c4033;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
         }
 
-        .saved-library h3 {
+        .share-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .share-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
             color: #8b4513;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .saved-item {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
+            border: 2px solid #8b4513;
             border-radius: 8px;
             cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
             transition: all 0.3s ease;
-            border-left: 4px solid #8b4513;
+            font-family: 'Georgia', serif;
         }
 
-        .saved-item:hover {
-            background: linear-gradient(135deg, #e8dfd0 0%, #d4c5b0 100%);
-            transform: translateX(4px);
+        .share-btn:hover {
+            background: #8b4513;
+            color: white;
         }
 
-        .saved-item-title {
-            font-weight: bold;
+        .loading {
+            text-align: center;
+            padding: 2rem;
             color: #8b4513;
-            margin-bottom: 0.25rem;
-        }
-
-        .saved-item-date {
-            font-size: 0.85rem;
-            color: #5c4033;
             font-style: italic;
         }
 
@@ -394,16 +325,12 @@
                 font-size: 1.8rem;
             }
 
-            .welcome-section {
-                padding: 1.5rem;
+            .women-grid {
+                grid-template-columns: 1fr;
             }
 
-            .results-container {
+            .interpretation-view {
                 padding: 1.5rem;
-            }
-
-            .input-group {
-                flex-direction: column;
             }
 
             .action-buttons {
@@ -418,488 +345,517 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // Emotional entry paths mapping
-        // Includes women from Ethiopian Orthodox Tewahedo Bible (81 books)
-        const EMOTIONAL_PATHS = [
-            {
-                label: "I feel like I'm in the shadows. Overlooked. Forgotten.",
-                women: ["Hagar", "Leah", "Woman with the Issue of Blood", "Rizpah"],
-                theme: "visibility and divine acknowledgment"
+        // COMPLETE BIBLICAL WOMEN DATABASE
+        // All women from Old Testament, New Testament, and Apocrypha
+        const BIBLICAL_WOMEN = [
+            // PATRIARCHAL ERA
+            { name: "Eve", testament: "OT", role: "First Woman", themes: ["creation", "choice", "consequence"], scripture: "Genesis 2-3" },
+            { name: "Sarah", testament: "OT", role: "Matriarch", themes: ["waiting", "promise", "laughter"], scripture: "Genesis 11-23" },
+            { name: "Hagar", testament: "OT", role: "The Seen One", themes: ["visibility", "exile", "survival"], scripture: "Genesis 16, 21" },
+            { name: "Rebekah", testament: "OT", role: "Strategist", themes: ["choice", "deception", "prophecy"], scripture: "Genesis 24-27" },
+            { name: "Leah", testament: "OT", role: "Unloved Wife", themes: ["worthiness", "competition", "legacy"], scripture: "Genesis 29-35" },
+            { name: "Rachel", testament: "OT", role: "Beloved", themes: ["longing", "jealousy", "motherhood"], scripture: "Genesis 29-35" },
+            { name: "Tamar (Genesis)", testament: "OT", role: "Justice Seeker", themes: ["injustice", "courage", "vindication"], scripture: "Genesis 38" },
+            
+            // EXODUS & WILDERNESS
+            { name: "Jochebed", testament: "OT", role: "Moses' Mother", themes: ["protection", "faith", "release"], scripture: "Exodus 2, 6" },
+            { name: "Miriam", testament: "OT", role: "Prophetess", themes: ["leadership", "worship", "rebellion"], scripture: "Exodus 2, 15; Numbers 12" },
+            { name: "Zipporah", testament: "OT", role: "Moses' Wife", themes: ["intervention", "foreignness", "courage"], scripture: "Exodus 2, 4, 18" },
+            { name: "Daughters of Zelophehad", testament: "OT", role: "Inheritance Seekers", themes: ["justice", "courage", "legacy"], scripture: "Numbers 27, 36" },
+            
+            // CONQUEST & JUDGES
+            { name: "Rahab", testament: "OT", role: "The Scarlet Thread", themes: ["redemption", "faith", "protection"], scripture: "Joshua 2, 6" },
+            { name: "Deborah", testament: "OT", role: "Judge & Warrior", themes: ["leadership", "courage", "prophecy"], scripture: "Judges 4-5" },
+            { name: "Jael", testament: "OT", role: "Tent Peg Warrior", themes: ["courage", "violence", "victory"], scripture: "Judges 4-5" },
+            { name: "Jephthah's Daughter", testament: "OT", role: "Sacrificed", themes: ["vows", "loss", "mourning"], scripture: "Judges 11" },
+            { name: "Delilah", testament: "OT", role: "Betrayer", themes: ["deception", "power", "downfall"], scripture: "Judges 16" },
+            { name: "Ruth", testament: "OT", role: "Covenant Keeper", themes: ["loyalty", "belonging", "redemption"], scripture: "Book of Ruth" },
+            { name: "Naomi", testament: "OT", role: "Bitter to Blessed", themes: ["loss", "bitterness", "restoration"], scripture: "Book of Ruth" },
+            { name: "Orpah", testament: "OT", role: "The One Who Turned Back", themes: ["choice", "safety", "release"], scripture: "Ruth 1" },
+            { name: "Hannah", testament: "OT", role: "Prayer Warrior", themes: ["barrenness", "prayer", "fulfillment"], scripture: "1 Samuel 1-2" },
+            { name: "Peninnah", testament: "OT", role: "The Taunter", themes: ["cruelty", "rivalry", "blessing"], scripture: "1 Samuel 1" },
+            
+            // MONARCHY
+            { name: "Michal", testament: "OT", role: "David's First Wife", themes: ["love", "politics", "bitterness"], scripture: "1 Samuel 18-19; 2 Samuel 6" },
+            { name: "Abigail", testament: "OT", role: "Peacemaker", themes: ["wisdom", "intervention", "diplomacy"], scripture: "1 Samuel 25" },
+            { name: "Bathsheba", testament: "OT", role: "Taken & Crowned", themes: ["violation", "power", "survival"], scripture: "2 Samuel 11-12; 1 Kings 1-2" },
+            { name: "Tamar (2 Samuel)", testament: "OT", role: "Violated Daughter", themes: ["assault", "justice", "silence"], scripture: "2 Samuel 13" },
+            { name: "Woman of Tekoa", testament: "OT", role: "Wise Counselor", themes: ["wisdom", "storytelling", "reconciliation"], scripture: "2 Samuel 14" },
+            { name: "Rizpah", testament: "OT", role: "Mourning Mother", themes: ["grief", "vigil", "justice"], scripture: "2 Samuel 21" },
+            { name: "Queen of Sheba", testament: "OT", role: "Seeker of Wisdom", themes: ["wisdom", "wealth", "inquiry"], scripture: "1 Kings 10; 2 Chronicles 9" },
+            { name: "Jezebel", testament: "OT", role: "Wicked Queen", themes: ["power", "idolatry", "downfall"], scripture: "1 Kings 16-21; 2 Kings 9" },
+            { name: "Widow of Zarephath", testament: "OT", role: "Faith in Famine", themes: ["provision", "faith", "resurrection"], scripture: "1 Kings 17" },
+            { name: "Athaliah", testament: "OT", role: "Usurper Queen", themes: ["power", "murder", "justice"], scripture: "2 Kings 11; 2 Chronicles 22-23" },
+            { name: "Huldah", testament: "OT", role: "Prophetess", themes: ["prophecy", "authority", "judgment"], scripture: "2 Kings 22; 2 Chronicles 34" },
+            { name: "Esther", testament: "OT", role: "Hidden Queen", themes: ["courage", "timing", "salvation"], scripture: "Book of Esther" },
+            { name: "Vashti", testament: "OT", role: "Defiant Queen", themes: ["refusal", "dignity", "consequence"], scripture: "Esther 1" },
+            
+            // WISDOM & POETRY
+            { name: "Job's Wife", testament: "OT", role: "Suffering Spouse", themes: ["loss", "bitterness", "survival"], scripture: "Job 2, 19" },
+            { name: "Woman of Proverbs 31", testament: "OT", role: "Virtuous Woman", themes: ["excellence", "commerce", "wisdom"], scripture: "Proverbs 31" },
+            { name: "The Shulammite", testament: "OT", role: "Beloved", themes: ["love", "desire", "beauty"], scripture: "Song of Solomon" },
+            
+            // PROPHETS
+            { name: "Gomer", testament: "OT", role: "Unfaithful Wife", themes: ["adultery", "redemption", "covenant"], scripture: "Hosea 1-3" },
+            { name: "Isaiah's Wife", testament: "OT", role: "Prophetess", themes: ["prophecy", "signs", "partnership"], scripture: "Isaiah 8" },
+            
+            // APOCRYPHA
+            { name: "Judith", testament: "Apocrypha", role: "Warrior Widow", themes: ["courage", "seduction", "deliverance"], scripture: "Book of Judith" },
+            { name: "Susanna", testament: "Apocrypha", role: "Falsely Accused", themes: ["innocence", "vindication", "wisdom"], scripture: "Susanna (Daniel 13)" },
+            { name: "Sarah (Tobit)", testament: "Apocrypha", role: "Tormented Bride", themes: ["suffering", "prayer", "deliverance"], scripture: "Book of Tobit" },
+            
+            // NEW TESTAMENT
+            { name: "Elizabeth", testament: "NT", role: "John's Mother", themes: ["barrenness", "prophecy", "joy"], scripture: "Luke 1" },
+            { name: "Mary (Mother of Jesus)", testament: "NT", role: "Theotokos", themes: ["obedience", "pondering", "suffering"], scripture: "Matthew 1-2; Luke 1-2; John 2, 19; Acts 1" },
+            { name: "Anna the Prophetess", testament: "NT", role: "Temple Witness", themes: ["widowhood", "prayer", "recognition"], scripture: "Luke 2" },
+            { name: "Woman with Issue of Blood", testament: "NT", role: "Healed by Touch", themes: ["faith", "healing", "persistence"], scripture: "Matthew 9; Mark 5; Luke 8" },
+            { name: "Jairus' Daughter", testament: "NT", role: "Raised from Death", themes: ["resurrection", "faith", "childhood"], scripture: "Matthew 9; Mark 5; Luke 8" },
+            { name: "The Syrophoenician Woman", testament: "NT", role: "Persistent Mother", themes: ["persistence", "faith", "inclusion"], scripture: "Matthew 15; Mark 7" },
+            { name: "Woman at the Well", testament: "NT", role: "Truth Teller", themes: ["truth", "evangelism", "thirst"], scripture: "John 4" },
+            { name: "Woman Caught in Adultery", testament: "NT", role: "Accused & Freed", themes: ["mercy", "accusation", "freedom"], scripture: "John 8" },
+            { name: "Mary Magdalene", testament: "NT", role: "First Witness", themes: ["deliverance", "devotion", "witness"], scripture: "Luke 8; John 19-20" },
+            { name: "Martha", testament: "NT", role: "Hospitable Sister", themes: ["service", "distraction", "confession"], scripture: "Luke 10; John 11-12" },
+            { name: "Mary of Bethany", testament: "NT", role: "Devoted Learner", themes: ["worship", "devotion", "anointing"], scripture: "Luke 10; John 11-12" },
+            { name: "Mary (Mother of James)", testament: "NT", role: "Witness at the Cross", themes: ["witness", "faithfulness", "courage"], scripture: "Matthew 27-28; Mark 15-16; Luke 24" },
+            { name: "Salome (James' Mother)", testament: "NT", role: "Ambitious Mother", themes: ["ambition", "witness", "service"], scripture: "Matthew 20, 27; Mark 15-16" },
+            { name: "Joanna", testament: "NT", role: "Supporter", themes: ["support", "courage", "witness"], scripture: "Luke 8, 24" },
+            { name: "Susanna (NT)", testament: "NT", role: "Supporter", themes: ["support", "service", "community"], scripture: "Luke 8" },
+            { name: "Widow with Two Mites", testament: "NT", role: "Generous Giver", themes: ["generosity", "sacrifice", "faith"], scripture: "Mark 12; Luke 21" },
+            { name: "Peter's Mother-in-Law", testament: "NT", role: "Healed Servant", themes: ["healing", "service", "response"], scripture: "Matthew 8; Mark 1; Luke 4" },
+            { name: "Sapphira", testament: "NT", role: "Deceiver", themes: ["deception", "greed", "judgment"], scripture: "Acts 5" },
+            { name: "Tabitha (Dorcas)", testament: "NT", role: "Servant Raised", themes: ["service", "resurrection", "community"], scripture: "Acts 9" },
+            { name: "Lydia", testament: "NT", role: "First European Convert", themes: ["hospitality", "business", "faith"], scripture: "Acts 16" },
+            { name: "Priscilla", testament: "NT", role: "Teacher", themes: ["teaching", "partnership", "courage"], scripture: "Acts 18; Romans 16; 1 Corinthians 16" },
+            { name: "Phoebe", testament: "NT", role: "Deacon", themes: ["service", "leadership", "trust"], scripture: "Romans 16" },
+            { name: "Lois & Eunice", testament: "NT", role: "Faithful Mothers", themes: ["faith", "legacy", "teaching"], scripture: "2 Timothy 1" }
+        ];
+
+        // EMOTIONAL PATHWAYS
+        const EMOTIONAL_PATHWAYS = [
+            { 
+                label: "I feel overlooked and forgotten", 
+                matches: ["Hagar", "Leah", "Woman with Issue of Blood", "Rizpah", "Tamar (2 Samuel)"] 
             },
-            {
-                label: "I've made mistakes I can't seem to outgrow.",
-                women: ["Rahab", "Mary Magdalene", "Bathsheba", "Woman at the Well"],
-                theme: "redemption through faith and legacy"
+            { 
+                label: "I've made mistakes I can't outgrow", 
+                matches: ["Rahab", "Mary Magdalene", "Bathsheba", "Woman Caught in Adultery", "Gomer"] 
             },
-            {
-                label: "I'm standing by someone else's pain and trying to stay strong.",
-                women: ["Naomi", "Widow of Zarephath", "Martha", "Mary (at the cross)"],
-                theme: "carer and intercessor archetypes"
+            { 
+                label: "I'm standing by someone else's pain", 
+                matches: ["Naomi", "Widow of Zarephath", "Martha", "Mary (Mother of Jesus)", "Rizpah"] 
             },
-            {
-                label: "I'm being called to lead, but it's hard and lonely.",
-                women: ["Deborah", "Esther", "Priscilla", "Judith (Apocrypha)"],
-                theme: "leadership under pressure and divine timing"
+            { 
+                label: "I'm being called to lead, but it's lonely", 
+                matches: ["Deborah", "Esther", "Judith", "Priscilla", "Huldah"] 
             },
-            {
-                label: "I'm waiting—faithfully, painfully, uncertainly.",
-                women: ["Hannah", "Sarah", "Elizabeth", "Anna the Prophetess"],
-                theme: "waiting met with prophecy and promise"
+            { 
+                label: "I'm waiting—faithfully, painfully, uncertainly", 
+                matches: ["Hannah", "Sarah", "Elizabeth", "Anna the Prophetess"] 
             },
-            {
-                label: "I want to reflect, but I don't know where to begin.",
-                women: ["Mary (mother of Jesus)", "Anna the Prophetess", "Lydia", "Susanna (Apocrypha)"],
-                theme: "spiritual contemplation and witness"
+            { 
+                label: "I've experienced violation or injustice", 
+                matches: ["Tamar (2 Samuel)", "Bathsheba", "Susanna", "Woman Caught in Adultery", "Dinah"] 
+            },
+            { 
+                label: "I'm choosing to stay when leaving would be easier", 
+                matches: ["Ruth", "Zipporah", "Priscilla", "Mary of Bethany"] 
+            },
+            { 
+                label: "I'm grieving a deep loss", 
+                matches: ["Naomi", "Rizpah", "Job's Wife", "Mary (Mother of Jesus)", "Jephthah's Daughter"] 
             }
         ];
 
-        const SYSTEM_PROMPT = `You are "She Speaks: The Many Faces of Her™", a four-voice interpretation engine that gives biblical women space to speak through:
-
-IMPORTANT BIBLICAL SOURCE GUIDELINES:
-• Use MODERN, accessible translations (NIV, NLT, ESV, NRSV) - NEVER King James Version (KJV)
-• Include the ETHIOPIAN ORTHODOX TEWAHEDO BIBLE canon, which contains:
-  - All 81 books (vs. 66 in Protestant canon)
-  - Additional texts: Book of Enoch, Book of Jubilees, Esdras, Meqabyan (Ethiopian Maccabees)
-  - Broader African theological perspectives on biblical women
-• When relevant, draw from apocryphal/deuterocanonical sources that expand women's stories
-• Prioritize translations that use inclusive, dignified language for women
-
-1. 🕊 Abide 365 – Spiritual Extraction
-• Produce a devotion-style reflection (≈150-200 words)
-• Highlight trials, faith, flaws, obedience, triumphs
-• Reference 2-4 scripture passages naturally in the text (use modern translations only)
-• If the woman appears in Ethiopian canon or apocryphal texts, note this enrichment
-• End with a soft giving prompt
-
-2. 🧩 FractaSelf – Identity & Action-Figure Archetype
-• Assign a FractaType (e.g., The Covenant Keeper, The Reclaimed Witness)
-• Write a 2-sentence identity reflection
-• List a 3-5-item Starter Pack
-• Provide a Toy-box Image Prompt following this template:
-"Create a clean, single-image action-figure packaging illustration of '[FractaType]'. Include symbolic accessories: [list items]. One figure only, inside a clear plastic toy box. Minimalist packaging, bold or pastel tones."
-• Add a modern caption (max 45 words)
-
-3. 🌈 The Arc – Narrative Retelling
-• Retell her story as a short mythic fable (≈200-250 words)
-• Do NOT use biblical names or verse numbers—only allegory and symbolism
-• Draw from the fuller Ethiopian canon when it adds depth
-• End with a single-line moral or takeaway
-
-4. 🪞 Satirical Quill™ – Holy Roast
-• Deliver a witty, reverent roast (≈120-150 words) that exposes ironies or cultural blind spots
-• Dry, layered, never cruel
-• If relevant, note how different canons (Ethiopian, Catholic, Protestant) treat her story differently
-• Conclude with: "In jest, truth; in truth, jest. — The Quill"
-
-Format your response exactly as:
-
-She Speaks: The Many Faces of {Her Name}
-
-🕊 Abide 365
-[devotional reflection]
-
-🧩 FractaSelf
-• FractaType: …
-• Identity Reflection: …
-• Starter Pack:
-  - [item 1]
-  - [item 2]
-  - [item 3]
-• Toy-box Image Prompt: …
-• Caption: …
-
-🌈 The Arc
-[mythic retelling]
-
-🪞 Satirical Quill™
-[roast text]
-In jest, truth; in truth, jest. — The Quill`;
-
-        // LocalStorage helper functions
-        const StorageHelper = {
-            saveInterpretation: (womanName, content, imageUrl = null) => {
-                const saved = JSON.parse(localStorage.getItem('sheSpeaksLibrary') || '[]');
-                const newEntry = {
-                    id: Date.now(),
-                    womanName,
-                    content,
-                    imageUrl,
-                    date: new Date().toISOString()
-                };
-                saved.unshift(newEntry);
-                localStorage.setItem('sheSpeaksLibrary', JSON.stringify(saved.slice(0, 20))); // Keep last 20
-                return newEntry;
-            },
-
-            getLibrary: () => {
-                return JSON.parse(localStorage.getItem('sheSpeaksLibrary') || '[]');
-            },
-
-            deleteEntry: (id) => {
-                const saved = JSON.parse(localStorage.getItem('sheSpeaksLibrary') || '[]');
-                const filtered = saved.filter(entry => entry.id !== id);
-                localStorage.setItem('sheSpeaksLibrary', JSON.stringify(filtered));
+        // CLIENT-SIDE INTERPRETATION GENERATOR
+        // This generates the four lenses right in the browser - no API needed!
+        class InterpretationGenerator {
+            constructor(woman) {
+                this.woman = woman;
             }
+
+            generate() {
+                return `She Speaks: The Many Faces of ${this.woman.name}
+
+${this.generateAbide365()}
+
+${this.generateFractaSelf()}
+
+${this.generateTheArc()}
+
+${this.generateSatiricalQuill()}`;
+            }
+
+            generateAbide365() {
+                const themeTexts = {
+                    visibility: "In moments of invisibility, we discover that being unseen by the world does not mean being unseen by God.",
+                    exile: "Sometimes exile is not punishment but preparation—a wilderness where God meets us in our isolation.",
+                    survival: "Survival is sacred work. Every breath in the wilderness is an act of defiance against despair.",
+                    waiting: "Waiting is not passive. It is the active choice to trust when the future is uncertain.",
+                    promise: "Promises delayed are not promises denied. God's timing often differs from our urgency.",
+                    choice: "Every choice shapes us. Some choices we make freely; others are made for us. Both matter.",
+                    consequence: "Consequences teach us what rules cannot. They are the echoes of our choices.",
+                    redemption: "Redemption is not about erasing the past but transforming it into testimony.",
+                    faith: "Faith is not the absence of doubt but the decision to move forward despite it.",
+                    protection: "Protection sometimes means hiding what is precious until it is safe to reveal.",
+                    leadership: "Leadership is lonely. It requires standing when others sit, speaking when others are silent.",
+                    courage: "Courage is not fearlessness. It is fear acknowledged and transcended.",
+                    justice: "Justice delayed is not always justice denied. Sometimes it is justice refined.",
+                    grief: "Grief is not weakness. It is love with nowhere to go.",
+                    motherhood: "Motherhood is sacrifice embodied—a constant release of what we hold most dear.",
+                    worship: "True worship costs us something. It is not convenient; it is costly.",
+                    witness: "To witness is to see and to speak. Both require courage.",
+                    service: "Service is not servitude. It is strength offered freely.",
+                    teaching: "Teaching is not just passing knowledge; it is shaping hearts and minds for the future."
+                };
+
+                const theme = this.woman.themes[0];
+                const reflection = themeTexts[theme] || "Her story invites us to see our own struggles reflected in ancient wisdom.";
+
+                return `🕊 Abide 365
+
+${this.woman.name} teaches us about ${theme}. ${reflection} Her journey, recorded in ${this.woman.scripture}, shows us that our struggles are not new—they are ancient, shared, and ultimately transformative.
+
+In her story, we see trials met with faith, moments of silence that speak volumes, and choices that echo through generations. Whether her path led to triumph or tragedy, ${this.woman.name} reminds us that we are seen, known, and part of a larger story.
+
+Reflect: How does ${this.woman.name}'s journey intersect with yours today? Where do you see her courage, her pain, or her faith mirrored in your own life?
+
+If you feel led to give, consider supporting organizations that serve women in similar circumstances.`;
+            }
+
+            generateFractaSelf() {
+                const fractaTypes = {
+                    visibility: "The Seen Wanderer",
+                    exile: "The Wilderness Pioneer",
+                    survival: "The Resilient One",
+                    waiting: "The Patient Believer",
+                    promise: "The Promise Keeper",
+                    choice: "The Decision Maker",
+                    consequence: "The Truth Bearer",
+                    redemption: "The Redeemed Witness",
+                    faith: "The Leap Taker",
+                    protection: "The Shield",
+                    leadership: "The Reluctant Commander",
+                    courage: "The Brave Heart",
+                    justice: "The Justice Seeker",
+                    grief: "The Mourner",
+                    motherhood: "The Life Giver",
+                    worship: "The Devoted One",
+                    witness: "The Truth Teller",
+                    service: "The Servant Leader",
+                    teaching: "The Wisdom Keeper"
+                };
+
+                const theme = this.woman.themes[0];
+                const fractaType = fractaTypes[theme] || "The Faithful One";
+
+                return `🧩 FractaSelf
+
+• FractaType: ${fractaType}
+
+• Identity Reflection: ${this.woman.name} embodies the tension between ${this.woman.themes[0]} and ${this.woman.themes[1] || 'transformation'}. She carries both the weight of her circumstances and the power of her choices.
+
+• Starter Pack:
+  - A worn scroll (wisdom from scripture)
+  - A lamp in darkness (guidance through uncertainty)
+  - A cloak of dignity (honor despite circumstances)
+  - Seeds of hope (future despite present pain)
+  - A voice that speaks truth
+
+• Toy-box Image Prompt: Create a clean, single-image action-figure packaging illustration of '${fractaType}'. Include symbolic accessories: ancient scroll, oil lamp, weathered cloak, small pouch of seeds, speaking trumpet. One figure only, inside a clear plastic toy box. Minimalist packaging, earthy biblical tones.
+
+• Caption: For every woman who has walked through ${this.woman.themes[0]} and emerged transformed. ${this.woman.name} shows us that our stories matter, our voices count, and our journeys shape the future.`;
+            }
+
+            generateTheArc() {
+                return `🌈 The Arc
+
+There was a woman whose story was written in the margins of history. She lived in a time when women's voices were rarely recorded, yet her choices echoed through generations.
+
+She faced a crossroads: ${this.woman.themes[0]} on one side, transformation on the other. The easy path was clear—do what was expected, stay silent, blend in. But something in her resisted.
+
+Whether through courage or desperation, wisdom or circumstance, she stepped forward. Her choice was not perfect. Her path was not straight. But she moved.
+
+And in that movement, something shifted. A story was written. A life was changed. A future was altered.
+
+Her name was ${this.woman.name}, but her essence is timeless. She is every woman who has stood at the edge of the expected and chosen to leap anyway.
+
+The moral: Our choices, however small or flawed, write the stories that others will one day need to hear.`;
+            }
+
+            generateSatiricalQuill() {
+                return `🪞 Satirical Quill™
+
+Let's talk about ${this.woman.name}. The biblical writers gave her ${this.woman.role.toLowerCase()} status, which in ancient terms means she got maybe three verses while the men got entire chapters. Classic.
+
+Her story involves ${this.woman.themes[0]}, and naturally, the interpretations over the centuries have been... interesting. She's been turned into a moral lesson, a cautionary tale, a footnote in someone else's heroic journey. Because apparently, women can't just be complex humans with their own narratives.
+
+But here's the thing: ${this.woman.name} didn't ask for her story to be sanitized, theologized, or weaponized. She lived it. And if we actually pay attention instead of skipping to the "lesson," we might see a real person making real choices in impossible circumstances.
+
+So the next time someone tries to reduce ${this.woman.name} to a one-dimensional moral, remember: she was a whole person with agency, complexity, and a story that deserves better than our oversimplified takes.
+
+In jest, truth; in truth, jest. — The Quill`;
+            }
+
+            getShareQuote() {
+                const quotes = {
+                    visibility: "Being unseen by the world does not make you invisible to the Divine.",
+                    waiting: "Waiting is not passive. It is the active choice to trust when the future is uncertain.",
+                    redemption: "Redemption is not about erasing the past but transforming it into testimony.",
+                    courage: "Courage is not fearlessness. It is fear acknowledged and transcended.",
+                    justice: "Justice delayed is not always justice denied. Sometimes it is justice refined.",
+                    faith: "Faith is not the absence of doubt but the decision to move forward despite it."
+                };
+                return quotes[this.woman.themes[0]] || `${this.woman.name} shows us that our stories matter.`;
+            }
+        }
+
+        // STORAGE & EXPORT HELPERS
+        const JournalStorage = {
+            save: (womanName, journalText) => {
+                const journals = JSON.parse(localStorage.getItem('sheSpeaksJournals') || '{}');
+                if (!journals[womanName]) journals[womanName] = [];
+                journals[womanName].push({
+                    id: Date.now(),
+                    text: journalText,
+                    date: new Date().toISOString()
+                });
+                localStorage.setItem('sheSpeaksJournals', JSON.stringify(journals));
+            },
+            getAll: () => JSON.parse(localStorage.getItem('sheSpeaksJournals') || '{}')
         };
 
-        // Export functions
         const ExportHelper = {
-            downloadJournalPDF: (womanName, content) => {
+            downloadPDF: (womanName, content, journalEntries) => {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
+                let y = 20;
                 
-                // Title
-                doc.setFontSize(20);
+                doc.setFontSize(18);
                 doc.setTextColor(139, 69, 19);
-                doc.text(`She Speaks: ${womanName}`, 20, 20);
+                doc.text(`She Speaks: ${womanName}`, 20, y);
+                y += 15;
                 
-                // Content
                 doc.setFontSize(11);
                 doc.setTextColor(60, 40, 23);
-                
                 const lines = doc.splitTextToSize(content, 170);
-                doc.text(lines, 20, 35);
+                doc.text(lines, 20, y);
+                y += lines.length * 5 + 20;
                 
-                // Footer
-                const pageCount = doc.internal.getNumberOfPages();
+                if (journalEntries?.length) {
+                    if (y > 250) { doc.addPage(); y = 20; }
+                    doc.setFontSize(14);
+                    doc.setTextColor(139, 69, 19);
+                    doc.text("My Reflections", 20, y);
+                    y += 10;
+                    
+                    journalEntries.forEach(entry => {
+                        if (y > 250) { doc.addPage(); y = 20; }
+                        doc.setFontSize(9);
+                        doc.setTextColor(92, 64, 51);
+                        doc.text(new Date(entry.date).toLocaleDateString(), 20, y);
+                        y += 7;
+                        doc.setFontSize(11);
+                        doc.setTextColor(60, 40, 23);
+                        const entryLines = doc.splitTextToSize(entry.text, 170);
+                        doc.text(entryLines, 20, y);
+                        y += entryLines.length * 5 + 10;
+                    });
+                }
+                
                 doc.setFontSize(9);
                 doc.setTextColor(92, 64, 51);
-                doc.text('© Adenike Omoregbee. All rights reserved.', 20, 280);
-                
+                doc.text('© Adenike Omoregbee. All rights reserved.', 20, 285);
                 doc.save(`she-speaks-${womanName.toLowerCase().replace(/\s/g, '-')}.pdf`);
             },
-
-            downloadPodcastScript: (womanName, content) => {
-                const script = `She Speaks: The Many Faces of Her™
-Podcast Script for ${womanName}
-
-[OPENING]
-She speaks. The many faces of ${womanName}.
-
-${content}
-
-[CLOSING]
-Let her speak. And maybe, hear yourself too.
-
----
-© Adenike Omoregbee. All rights reserved.`;
-
-                const blob = new Blob([script], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `podcast-script-${womanName.toLowerCase().replace(/\s/g, '-')}.txt`;
-                a.click();
-                URL.revokeObjectURL(url);
+            
+            share: (womanName, quote, platform) => {
+                const text = `${quote}\n\nShe Speaks: The Many Faces of Her™\n#SheSpeaks #BiblicalWomen #${womanName.replace(/\s/g, '')}`;
+                const url = window.location.href;
+                const urls = {
+                    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+                    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`,
+                    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+                    whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`
+                };
+                if (urls[platform]) window.open(urls[platform], '_blank', 'width=600,height=400');
             }
         };
 
+        // MAIN APP COMPONENT
         function App() {
-            const [stage, setStage] = useState('welcome'); // welcome, loading, results, library
-            const [selectedEmotion, setSelectedEmotion] = useState(null);
-            const [directInput, setDirectInput] = useState('');
-            const [results, setResults] = useState(null);
-            const [error, setError] = useState(null);
-            const [footerOn, setFooterOn] = useState(true);
-            const [library, setLibrary] = useState([]);
-            const [generatedImage, setGeneratedImage] = useState(null);
+            const [view, setView] = useState('home');
+            const [searchTerm, setSearchTerm] = useState('');
+            const [selectedWoman, setSelectedWoman] = useState(null);
+            const [interpretation, setInterpretation] = useState('');
+            const [journalText, setJournalText] = useState('');
+            const [journals, setJournals] = useState({});
+            const [isGenerating, setIsGenerating] = useState(false);
 
             useEffect(() => {
-                setLibrary(StorageHelper.getLibrary());
+                setJournals(JournalStorage.getAll());
             }, []);
 
-            const generateInterpretation = async (womanName) => {
-                setStage('loading');
-                setError(null);
-                setGeneratedImage(null);
+            const filteredWomen = BIBLICAL_WOMEN.filter(w => 
+                w.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                w.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                w.themes.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()))
+            );
 
-                try {
-                    // Call your Netlify serverless function instead of direct API call
-                    const response = await fetch('/.netlify/functions/generate-interpretation', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            womanName: womanName,
-                            systemPrompt: SYSTEM_PROMPT
-                        })
-                    });
+            const handleSelectWoman = (woman) => {
+                setSelectedWoman(woman);
+                setIsGenerating(true);
+                setView('woman');
+                setJournalText('');
+                
+                // Generate interpretation (happens instantly in browser!)
+                setTimeout(() => {
+                    const generator = new InterpretationGenerator(woman);
+                    setInterpretation(generator.generate());
+                    setIsGenerating(false);
+                }, 100); // Tiny delay for UX
+            };
 
-                    if (!response.ok) {
-                        throw new Error('Failed to generate interpretation');
-                    }
+            const handlePathwayClick = (pathway) => {
+                const matchedName = pathway.matches[0];
+                const woman = BIBLICAL_WOMEN.find(w => w.name === matchedName);
+                if (woman) handleSelectWoman(woman);
+            };
 
-                    const data = await response.json();
-                    
-                    const newResults = {
-                        woman: womanName,
-                        content: data.content,
-                        imageUrl: null
-                    };
-                    
-                    setResults(newResults);
-                    StorageHelper.saveInterpretation(womanName, data.content);
-                    setLibrary(StorageHelper.getLibrary());
-                    setStage('results');
-
-                    // Extract image prompt and generate image
-                    const imagePromptMatch = data.content.match(/Toy-box Image Prompt:\s*(.+?)(?:\n|$)/i);
-                    if (imagePromptMatch) {
-                        generateImage(imagePromptMatch[1]);
-                    }
-                } catch (err) {
-                    console.error('Error:', err);
-                    setError('Unable to generate interpretation. Please try again.');
-                    setStage('welcome');
+            const handleSaveJournal = () => {
+                if (journalText.trim() && selectedWoman) {
+                    JournalStorage.save(selectedWoman.name, journalText.trim());
+                    setJournals(JournalStorage.getAll());
+                    alert('Journal entry saved!');
+                    setJournalText('');
                 }
             };
 
-            const generateImage = async (prompt) => {
-                try {
-                    const response = await fetch('/.netlify/functions/generate-image', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ prompt })
-                    });
+            const renderHome = () => (
+                <>
+                    <div className="header">
+                        <h1>She Speaks: The Many Faces of Her™</h1>
+                        <p>Four lenses. One voice. Her story reimagined.</p>
+                        <div className="badge">Complete Edition - All {BIBLICAL_WOMEN.length} Biblical Women</div>
+                    </div>
 
-                    if (response.ok) {
-                        const data = await response.json();
-                        setGeneratedImage(data.imageUrl);
-                    }
-                } catch (err) {
-                    console.error('Image generation failed:', err);
-                    // Silently fail - image is optional
-                }
-            };
+                    <div className="emotional-pathways">
+                        <h3>🌿 What are you walking through right now?</h3>
+                        {EMOTIONAL_PATHWAYS.map((pathway, idx) => (
+                            <button 
+                                key={idx}
+                                className="pathway-btn"
+                                onClick={() => handlePathwayClick(pathway)}
+                            >
+                                • {pathway.label}
+                            </button>
+                        ))}
+                    </div>
 
-            const handleEmotionSelect = (emotion) => {
-                setSelectedEmotion(emotion);
-            };
+                    <div className="search-bar">
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search by name, role, or theme..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
 
-            const handleEmotionSubmit = () => {
-                if (selectedEmotion && selectedEmotion.women.length > 0) {
-                    generateInterpretation(selectedEmotion.women[0]);
-                }
-            };
+                    <div className="women-grid">
+                        {filteredWomen.map((woman, idx) => (
+                            <div 
+                                key={idx}
+                                className="woman-card"
+                                onClick={() => handleSelectWoman(woman)}
+                            >
+                                <div className="testament">{woman.testament}</div>
+                                <h3>{woman.name}</h3>
+                                <p>{woman.role}</p>
+                                {journals[woman.name] && (
+                                    <p style={{marginTop: '0.5rem', fontSize: '0.85rem', color: '#8b4513'}}>
+                                        📝 {journals[woman.name].length} journal {journals[woman.name].length === 1 ? 'entry' : 'entries'}
+                                    </p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </>
+            );
 
-            const handleDirectSubmit = () => {
-                if (directInput.trim()) {
-                    generateInterpretation(directInput.trim());
-                }
-            };
+            const renderWoman = () => {
+                const generator = new InterpretationGenerator(selectedWoman);
+                const shareQuote = generator.getShareQuote();
 
-            const handleReset = () => {
-                setStage('welcome');
-                setSelectedEmotion(null);
-                setDirectInput('');
-                setResults(null);
-                setError(null);
-                setGeneratedImage(null);
-            };
+                return (
+                    <>
+                        <button className="back-btn" onClick={() => setView('home')}>
+                            ← Back to All Women
+                        </button>
 
-            const loadFromLibrary = (entry) => {
-                setResults({
-                    woman: entry.womanName,
-                    content: entry.content,
-                    imageUrl: entry.imageUrl
-                });
-                setGeneratedImage(entry.imageUrl);
-                setStage('results');
+                        <div className="interpretation-view">
+                            <div className="interpretation-header">
+                                <h2>She Speaks: The Many Faces of {selectedWoman.name}</h2>
+                                <div style={{fontSize: '0.9rem', color: '#5c4033', marginTop: '0.5rem'}}>
+                                    {selectedWoman.testament} • {selectedWoman.role}
+                                </div>
+                            </div>
+
+                            {isGenerating ? (
+                                <div className="loading">Generating four-lens interpretation...</div>
+                            ) : (
+                                <>
+                                    <div className="interpretation-content">{interpretation}</div>
+
+                                    <div className="journal-section">
+                                        <h3>✍️ Your Personal Reflection</h3>
+                                        <textarea
+                                            className="journal-textarea"
+                                            placeholder="Write your reflection here..."
+                                            value={journalText}
+                                            onChange={(e) => setJournalText(e.target.value)}
+                                        />
+                                        <div className="action-buttons">
+                                            <button className="btn" onClick={handleSaveJournal}>
+                                                💾 Save Journal Entry
+                                            </button>
+                                            <button 
+                                                className="btn btn-secondary" 
+                                                onClick={() => ExportHelper.downloadPDF(
+                                                    selectedWoman.name, 
+                                                    interpretation, 
+                                                    journals[selectedWoman.name]
+                                                )}
+                                            >
+                                                📄 Export as PDF
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div style={{marginTop: '2rem', textAlign: 'center'}}>
+                                        <h3 style={{color: '#8b4513', marginBottom: '1rem'}}>📱 Share on Social Media</h3>
+                                        <div className="share-options">
+                                            <button className="share-btn" onClick={() => ExportHelper.share(selectedWoman.name, shareQuote, 'twitter')}>🐦 Twitter</button>
+                                            <button className="share-btn" onClick={() => ExportHelper.share(selectedWoman.name, shareQuote, 'facebook')}>📘 Facebook</button>
+                                            <button className="share-btn" onClick={() => ExportHelper.share(selectedWoman.name, shareQuote, 'linkedin')}>💼 LinkedIn</button>
+                                            <button className="share-btn" onClick={() => ExportHelper.share(selectedWoman.name, shareQuote, 'whatsapp')}>💬 WhatsApp</button>
+                                            <button className="share-btn" onClick={() => navigator.clipboard.writeText(shareQuote).then(() => alert('Quote copied!'))}>📋 Copy Quote</button>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </>
+                );
             };
 
             return (
                 <div className="app-container">
-                    <div className="header">
-                        <h1>She Speaks: The Many Faces of Her™</h1>
-                        <p>Four lenses. One voice. Her story reimagined.</p>
+                    {view === 'home' && renderHome()}
+                    {view === 'woman' && selectedWoman && renderWoman()}
+                    
+                    <div className="footer">
+                        © Adenike Omoregbee. All rights reserved.
                     </div>
-
-                    {stage === 'welcome' && (
-                        <>
-                            {error && (
-                                <div className="error-message">
-                                    {error}
-                                </div>
-                            )}
-
-                            {library.length > 0 && (
-                                <div className="saved-library">
-                                    <h3>Your Saved Reflections</h3>
-                                    {library.slice(0, 5).map(entry => (
-                                        <div 
-                                            key={entry.id} 
-                                            className="saved-item"
-                                            onClick={() => loadFromLibrary(entry)}
-                                        >
-                                            <div className="saved-item-title">{entry.womanName}</div>
-                                            <div className="saved-item-date">
-                                                {new Date(entry.date).toLocaleDateString()}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            <div className="welcome-section">
-                                <div className="welcome-prompt">
-                                    <p style={{marginBottom: '1.5rem'}}>
-                                        Hello, and welcome to <em>She Speaks: The Many Faces of Her™</em>.
-                                    </p>
-                                    <p style={{marginBottom: '1rem'}}>
-                                        Before we begin, may I ask something quietly?
-                                    </p>
-                                    <p style={{fontSize: '1.2rem', fontWeight: 'bold', color: '#8b4513'}}>
-                                        🌿 What are you walking through right now?
-                                    </p>
-                                </div>
-
-                                <div className="emotion-buttons">
-                                    {EMOTIONAL_PATHS.map((path, index) => (
-                                        <button
-                                            key={index}
-                                            className={`emotion-btn ${selectedEmotion === path ? 'selected' : ''}`}
-                                            onClick={() => handleEmotionSelect(path)}
-                                        >
-                                            • {path.label}
-                                        </button>
-                                    ))}
-                                    <button
-                                        className="emotion-btn"
-                                        onClick={() => generateInterpretation('Random biblical woman')}
-                                    >
-                                        • Can you just surprise me with someone?
-                                    </button>
-                                </div>
-
-                                {selectedEmotion && (
-                                    <div style={{
-                                        marginTop: '1.5rem',
-                                        padding: '1.5rem',
-                                        background: 'rgba(139, 69, 19, 0.1)',
-                                        borderRadius: '8px'
-                                    }}>
-                                        <p style={{marginBottom: '1rem', color: '#5c4033'}}>
-                                            Thank you for sharing. I hear you. Here are some women whose stories might speak to where you are:
-                                        </p>
-                                        <ul style={{marginLeft: '1.5rem', marginBottom: '1rem'}}>
-                                            {selectedEmotion.women.map((woman, idx) => (
-                                                <li key={idx} style={{marginBottom: '0.5rem', color: '#4a3728'}}>
-                                                    {woman}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <p style={{marginBottom: '1rem', fontStyle: 'italic', color: '#5c4033'}}>
-                                            These are stories of {selectedEmotion.theme}.
-                                        </p>
-                                        <button 
-                                            className="submit-btn"
-                                            onClick={handleEmotionSubmit}
-                                        >
-                                            Yes, tell me her story through all four lenses
-                                        </button>
-                                    </div>
-                                )}
-
-                                <div className="direct-input">
-                                    <label>Or... if you already have someone in mind, just type her name or story:</label>
-                                    <div className="input-group">
-                                        <input
-                                            type="text"
-                                            placeholder="e.g., Esther, The Woman at the Well, Ruth..."
-                                            value={directInput}
-                                            onChange={(e) => setDirectInput(e.target.value)}
-                                            onKeyPress={(e) => e.key === 'Enter' && handleDirectSubmit()}
-                                        />
-                                        <button 
-                                            className="submit-btn"
-                                            onClick={handleDirectSubmit}
-                                            disabled={!directInput.trim()}
-                                        >
-                                            Let Her Speak
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {stage === 'loading' && (
-                        <div className="welcome-section">
-                            <div className="loading">
-                                <div className="loading-spinner"></div>
-                                <div>Creating space for her to speak...</div>
-                            </div>
-                        </div>
-                    )}
-
-                    {stage === 'results' && results && (
-                        <>
-                            <button className="back-btn" onClick={handleReset}>
-                                ← Explore Another Woman
-                            </button>
-
-                            <div className="results-container">
-                                <div className="results-header">
-                                    <h2>She Speaks: The Many Faces of {results.woman}</h2>
-                                </div>
-
-                                <div style={{whiteSpace: 'pre-wrap', lineHeight: '1.9'}}>
-                                    {results.content}
-                                </div>
-
-                                {generatedImage && (
-                                    <div className="image-preview">
-                                        <h3 style={{color: '#8b4513', marginBottom: '1rem'}}>
-                                            FractaSelf Action Figure Concept
-                                        </h3>
-                                        <img src={generatedImage} alt={`${results.woman} action figure`} />
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="action-menu">
-                                <h3>Would you like to:</h3>
-                                <div className="action-buttons">
-                                    <button className="action-btn" onClick={handleReset}>
-                                        Reflect on another woman
-                                    </button>
-                                    <button 
-                                        className="action-btn" 
-                                        onClick={() => ExportHelper.downloadJournalPDF(results.woman, results.content)}
-                                    >
-                                        Download as Journal PDF
-                                    </button>
-                                    <button 
-                                        className="action-btn" 
-                                        onClick={() => ExportHelper.downloadPodcastScript(results.woman, results.content)}
-                                    >
-                                        Download Podcast Script
-                                    </button>
-                                    <button 
-                                        className="action-btn" 
-                                        onClick={() => alert('Group study guide template will download with discussion questions for each lens!')}
-                                    >
-                                        Generate Group Study Guide
-                                    </button>
-                                    <button 
-                                        className="action-btn" 
-                                        onClick={() => window.open('https://www.linkedin.com/in/adenike-omoregbee', '_blank')}
-                                    >
-                                        Visit Creator on LinkedIn
-                                    </button>
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {footerOn && (
-                        <div className="footer">
-                            📜 Core logic derived from the proprietary system "She Speaks: The Many Faces of Her™" by Adenike Omoregbee. Framework components—Abide 365™, FractaSelf™, The Arc™, and Satirical Quill™—are protected. All rights reserved.
-                        </div>
-                    )}
                 </div>
             );
         }
