@@ -3,352 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>She Speaks: The Many Faces of Her™ - Complete Edition</title>
+    <title>She Speaks: The Many Faces of Her™</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="She Speaks: The Many Faces of Her™">
-    <meta property="og:description" content="Biblical women reimagined through devotion, identity, narrative, and satire">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Georgia', serif;
             background: linear-gradient(135deg, #f5f0e8 0%, #e8dfd0 100%);
             min-height: 100vh;
             color: #3d2817;
         }
-
-        .app-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
+        .app-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
         .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem;
+            text-align: center; margin-bottom: 3rem; padding: 2rem;
             background: rgba(255, 255, 255, 0.7);
             border-radius: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
-
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            color: #8b4513;
-            font-weight: 400;
-            letter-spacing: 1px;
+            font-size: 2.5rem; margin-bottom: 0.5rem;
+            color: #8b4513; font-weight: 400; letter-spacing: 1px;
         }
-
-        .header p {
-            font-size: 1.1rem;
-            color: #5c4033;
-            font-style: italic;
-        }
-
+        .header p { font-size: 1.1rem; color: #5c4033; font-style: italic; }
         .badge {
-            display: inline-block;
-            background: #8b4513;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
+            display: inline-block; background: #8b4513; color: white;
+            padding: 0.5rem 1rem; border-radius: 20px;
+            font-size: 0.85rem; margin-top: 0.5rem;
         }
-
-        .search-bar {
-            margin-bottom: 2rem;
-        }
-
+        .search-bar { margin-bottom: 2rem; }
         .search-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #c4a57b;
-            border-radius: 8px;
-            font-family: 'Georgia', serif;
-            font-size: 1rem;
+            width: 100%; padding: 1rem; border: 2px solid #c4a57b;
+            border-radius: 8px; font-family: 'Georgia', serif; font-size: 1rem;
         }
-
         .emotional-pathways {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            margin-bottom: 2rem;
+            background: white; padding: 2rem; border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); margin-bottom: 2rem;
         }
-
-        .emotional-pathways h3 {
-            color: #8b4513;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
+        .emotional-pathways h3 { color: #8b4513; margin-bottom: 1rem; font-size: 1.3rem; }
         .pathway-btn {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
+            display: block; width: 100%; padding: 1rem; margin-bottom: 0.75rem;
             background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
-            border: 2px solid #c4a57b;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: left;
-            font-family: 'Georgia', serif;
-            font-size: 0.95rem;
+            border: 2px solid #c4a57b; border-radius: 8px; cursor: pointer;
+            text-align: left; font-family: 'Georgia', serif; font-size: 0.95rem;
             transition: all 0.3s ease;
         }
-
         .pathway-btn:hover {
             background: linear-gradient(135deg, #e8dfd0 0%, #d4c5b0 100%);
             transform: translateY(-2px);
         }
-
         .women-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            gap: 1.5rem; margin-bottom: 3rem;
         }
-
         .woman-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-left: 4px solid #8b4513;
+            background: white; padding: 1.5rem; border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); cursor: pointer;
+            transition: all 0.3s ease; border-left: 4px solid #8b4513;
         }
-
         .woman-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
-
-        .woman-card h3 {
-            color: #8b4513;
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
+        .woman-card h3 { color: #8b4513; margin-bottom: 0.5rem; font-size: 1.2rem; }
         .woman-card .testament {
-            font-size: 0.75rem;
-            color: #8b4513;
+            font-size: 0.75rem; color: #8b4513;
             background: rgba(139, 69, 19, 0.1);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 0.5rem;
+            padding: 0.25rem 0.5rem; border-radius: 4px;
+            display: inline-block; margin-bottom: 0.5rem;
         }
-
-        .woman-card p {
-            color: #5c4033;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
+        .woman-card p { color: #5c4033; font-size: 0.9rem; line-height: 1.6; }
         .interpretation-view {
-            background: white;
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            margin-bottom: 2rem;
+            background: white; padding: 3rem; border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); margin-bottom: 2rem;
         }
-
         .interpretation-header {
-            text-align: center;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid #e0d5c7;
-            margin-bottom: 2rem;
+            text-align: center; padding-bottom: 2rem;
+            border-bottom: 2px solid #e0d5c7; margin-bottom: 2rem;
         }
-
-        .interpretation-header h2 {
-            color: #8b4513;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
+        .interpretation-header h2 { color: #8b4513; font-size: 2rem; margin-bottom: 1rem; }
         .interpretation-content {
-            line-height: 1.9;
-            font-size: 1.05rem;
-            color: #4a3728;
-            white-space: pre-wrap;
-            margin-bottom: 2rem;
+            line-height: 1.9; font-size: 1.05rem; color: #4a3728;
+            white-space: pre-wrap; margin-bottom: 2rem;
         }
-
         .journal-section {
             background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-top: 2rem;
+            padding: 2rem; border-radius: 12px; margin-top: 2rem;
         }
-
-        .journal-section h3 {
-            color: #8b4513;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
+        .journal-section h3 { color: #8b4513; margin-bottom: 1rem; font-size: 1.3rem; }
         .journal-textarea {
-            width: 100%;
-            min-height: 150px;
-            padding: 1rem;
-            border: 2px solid #c4a57b;
-            border-radius: 8px;
-            font-family: 'Georgia', serif;
-            font-size: 1rem;
-            line-height: 1.8;
-            resize: vertical;
+            width: 100%; min-height: 150px; padding: 1rem;
+            border: 2px solid #c4a57b; border-radius: 8px;
+            font-family: 'Georgia', serif; font-size: 1rem;
+            line-height: 1.8; resize: vertical;
         }
-
         .action-buttons {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 1rem; margin-top: 2rem;
         }
-
         .btn {
             padding: 1rem;
             background: linear-gradient(135deg, #8b4513 0%, #6b3410 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-family: 'Georgia', serif;
-            text-align: center;
+            color: white; border: none; border-radius: 8px; cursor: pointer;
+            font-size: 1rem; font-weight: 600; transition: all 0.3s ease;
+            font-family: 'Georgia', serif; text-align: center;
         }
-
         .btn:hover {
             background: linear-gradient(135deg, #6b3410 0%, #4b2408 100%);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-
         .btn-secondary {
-            background: white;
-            color: #8b4513;
-            border: 2px solid #8b4513;
+            background: white; color: #8b4513; border: 2px solid #8b4513;
         }
-
-        .btn-secondary:hover {
-            background: #8b4513;
-            color: white;
-        }
-
+        .btn-secondary:hover { background: #8b4513; color: white; }
         .back-btn {
-            display: inline-block;
-            margin-bottom: 2rem;
+            display: inline-block; margin-bottom: 2rem;
             padding: 0.75rem 1.5rem;
             background: linear-gradient(135deg, #e8dfd0 0%, #c4a57b 100%);
-            color: #3d2817;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-family: 'Georgia', serif;
+            color: #3d2817; border: none; border-radius: 8px;
+            cursor: pointer; font-size: 1rem; text-decoration: none;
+            transition: all 0.3s ease; font-family: 'Georgia', serif;
         }
-
         .back-btn:hover {
             background: linear-gradient(135deg, #c4a57b 0%, #a48860 100%);
             transform: translateY(-2px);
         }
-
         .footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            font-size: 0.9rem;
-            color: #5c4033;
-            font-style: italic;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 8px;
+            text-align: center; padding: 2rem; margin-top: 3rem;
+            font-size: 0.9rem; color: #5c4033; font-style: italic;
+            background: rgba(255, 255, 255, 0.5); border-radius: 8px;
         }
-
         .share-options {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: flex; gap: 1rem; margin-top: 1rem;
+            flex-wrap: wrap; justify-content: center;
         }
-
         .share-btn {
-            padding: 0.75rem 1.5rem;
-            background: white;
-            color: #8b4513;
-            border: 2px solid #8b4513;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-family: 'Georgia', serif;
+            padding: 0.75rem 1.5rem; background: white; color: #8b4513;
+            border: 2px solid #8b4513; border-radius: 8px; cursor: pointer;
+            font-size: 0.9rem; font-weight: 600; text-decoration: none;
+            transition: all 0.3s ease; font-family: 'Georgia', serif;
         }
-
-        .share-btn:hover {
-            background: #8b4513;
-            color: white;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: #8b4513;
-            font-style: italic;
-        }
-
+        .share-btn:hover { background: #8b4513; color: white; }
+        .loading { text-align: center; padding: 2rem; color: #8b4513; font-style: italic; }
         @media (max-width: 768px) {
-            .app-container {
-                padding: 1rem;
-            }
-
-            .header h1 {
-                font-size: 1.8rem;
-            }
-
-            .women-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .interpretation-view {
-                padding: 1.5rem;
-            }
-
-            .action-buttons {
-                grid-template-columns: 1fr;
-            }
+            .app-container { padding: 1rem; }
+            .header h1 { font-size: 1.8rem; }
+            .women-grid { grid-template-columns: 1fr; }
+            .interpretation-view { padding: 1.5rem; }
+            .action-buttons { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div id="root"></div>
-
     <script type="text/babel">
         const { useState, useEffect } = React;
-
-        // COMPLETE BIBLICAL WOMEN DATABASE
-        // All women from Old Testament, New Testament, and Apocrypha
+        
         const BIBLICAL_WOMEN = [
-            // PATRIARCHAL ERA
             { name: "Eve", testament: "OT", role: "First Woman", themes: ["creation", "choice", "consequence"], scripture: "Genesis 2-3" },
             { name: "Sarah", testament: "OT", role: "Matriarch", themes: ["waiting", "promise", "laughter"], scripture: "Genesis 11-23" },
             { name: "Hagar", testament: "OT", role: "The Seen One", themes: ["visibility", "exile", "survival"], scripture: "Genesis 16, 21" },
@@ -356,14 +172,10 @@
             { name: "Leah", testament: "OT", role: "Unloved Wife", themes: ["worthiness", "competition", "legacy"], scripture: "Genesis 29-35" },
             { name: "Rachel", testament: "OT", role: "Beloved", themes: ["longing", "jealousy", "motherhood"], scripture: "Genesis 29-35" },
             { name: "Tamar (Genesis)", testament: "OT", role: "Justice Seeker", themes: ["injustice", "courage", "vindication"], scripture: "Genesis 38" },
-            
-            // EXODUS & WILDERNESS
             { name: "Jochebed", testament: "OT", role: "Moses' Mother", themes: ["protection", "faith", "release"], scripture: "Exodus 2, 6" },
             { name: "Miriam", testament: "OT", role: "Prophetess", themes: ["leadership", "worship", "rebellion"], scripture: "Exodus 2, 15; Numbers 12" },
             { name: "Zipporah", testament: "OT", role: "Moses' Wife", themes: ["intervention", "foreignness", "courage"], scripture: "Exodus 2, 4, 18" },
             { name: "Daughters of Zelophehad", testament: "OT", role: "Inheritance Seekers", themes: ["justice", "courage", "legacy"], scripture: "Numbers 27, 36" },
-            
-            // CONQUEST & JUDGES
             { name: "Rahab", testament: "OT", role: "The Scarlet Thread", themes: ["redemption", "faith", "protection"], scripture: "Joshua 2, 6" },
             { name: "Deborah", testament: "OT", role: "Judge & Warrior", themes: ["leadership", "courage", "prophecy"], scripture: "Judges 4-5" },
             { name: "Jael", testament: "OT", role: "Tent Peg Warrior", themes: ["courage", "violence", "victory"], scripture: "Judges 4-5" },
@@ -374,8 +186,6 @@
             { name: "Orpah", testament: "OT", role: "The One Who Turned Back", themes: ["choice", "safety", "release"], scripture: "Ruth 1" },
             { name: "Hannah", testament: "OT", role: "Prayer Warrior", themes: ["barrenness", "prayer", "fulfillment"], scripture: "1 Samuel 1-2" },
             { name: "Peninnah", testament: "OT", role: "The Taunter", themes: ["cruelty", "rivalry", "blessing"], scripture: "1 Samuel 1" },
-            
-            // MONARCHY
             { name: "Michal", testament: "OT", role: "David's First Wife", themes: ["love", "politics", "bitterness"], scripture: "1 Samuel 18-19; 2 Samuel 6" },
             { name: "Abigail", testament: "OT", role: "Peacemaker", themes: ["wisdom", "intervention", "diplomacy"], scripture: "1 Samuel 25" },
             { name: "Bathsheba", testament: "OT", role: "Taken & Crowned", themes: ["violation", "power", "survival"], scripture: "2 Samuel 11-12; 1 Kings 1-2" },
@@ -389,22 +199,14 @@
             { name: "Huldah", testament: "OT", role: "Prophetess", themes: ["prophecy", "authority", "judgment"], scripture: "2 Kings 22; 2 Chronicles 34" },
             { name: "Esther", testament: "OT", role: "Hidden Queen", themes: ["courage", "timing", "salvation"], scripture: "Book of Esther" },
             { name: "Vashti", testament: "OT", role: "Defiant Queen", themes: ["refusal", "dignity", "consequence"], scripture: "Esther 1" },
-            
-            // WISDOM & POETRY
             { name: "Job's Wife", testament: "OT", role: "Suffering Spouse", themes: ["loss", "bitterness", "survival"], scripture: "Job 2, 19" },
             { name: "Woman of Proverbs 31", testament: "OT", role: "Virtuous Woman", themes: ["excellence", "commerce", "wisdom"], scripture: "Proverbs 31" },
             { name: "The Shulammite", testament: "OT", role: "Beloved", themes: ["love", "desire", "beauty"], scripture: "Song of Solomon" },
-            
-            // PROPHETS
             { name: "Gomer", testament: "OT", role: "Unfaithful Wife", themes: ["adultery", "redemption", "covenant"], scripture: "Hosea 1-3" },
             { name: "Isaiah's Wife", testament: "OT", role: "Prophetess", themes: ["prophecy", "signs", "partnership"], scripture: "Isaiah 8" },
-            
-            // APOCRYPHA
             { name: "Judith", testament: "Apocrypha", role: "Warrior Widow", themes: ["courage", "seduction", "deliverance"], scripture: "Book of Judith" },
             { name: "Susanna", testament: "Apocrypha", role: "Falsely Accused", themes: ["innocence", "vindication", "wisdom"], scripture: "Susanna (Daniel 13)" },
             { name: "Sarah (Tobit)", testament: "Apocrypha", role: "Tormented Bride", themes: ["suffering", "prayer", "deliverance"], scripture: "Book of Tobit" },
-            
-            // NEW TESTAMENT
             { name: "Elizabeth", testament: "NT", role: "John's Mother", themes: ["barrenness", "prophecy", "joy"], scripture: "Luke 1" },
             { name: "Mary (Mother of Jesus)", testament: "NT", role: "Theotokos", themes: ["obedience", "pondering", "suffering"], scripture: "Matthew 1-2; Luke 1-2; John 2, 19; Acts 1" },
             { name: "Anna the Prophetess", testament: "NT", role: "Temple Witness", themes: ["widowhood", "prayer", "recognition"], scripture: "Luke 2" },
@@ -430,44 +232,17 @@
             { name: "Lois & Eunice", testament: "NT", role: "Faithful Mothers", themes: ["faith", "legacy", "teaching"], scripture: "2 Timothy 1" }
         ];
 
-        // EMOTIONAL PATHWAYS
         const EMOTIONAL_PATHWAYS = [
-            { 
-                label: "I feel overlooked and forgotten", 
-                matches: ["Hagar", "Leah", "Woman with Issue of Blood", "Rizpah", "Tamar (2 Samuel)"] 
-            },
-            { 
-                label: "I've made mistakes I can't outgrow", 
-                matches: ["Rahab", "Mary Magdalene", "Bathsheba", "Woman Caught in Adultery", "Gomer"] 
-            },
-            { 
-                label: "I'm standing by someone else's pain", 
-                matches: ["Naomi", "Widow of Zarephath", "Martha", "Mary (Mother of Jesus)", "Rizpah"] 
-            },
-            { 
-                label: "I'm being called to lead, but it's lonely", 
-                matches: ["Deborah", "Esther", "Judith", "Priscilla", "Huldah"] 
-            },
-            { 
-                label: "I'm waiting—faithfully, painfully, uncertainly", 
-                matches: ["Hannah", "Sarah", "Elizabeth", "Anna the Prophetess"] 
-            },
-            { 
-                label: "I've experienced violation or injustice", 
-                matches: ["Tamar (2 Samuel)", "Bathsheba", "Susanna", "Woman Caught in Adultery", "Dinah"] 
-            },
-            { 
-                label: "I'm choosing to stay when leaving would be easier", 
-                matches: ["Ruth", "Zipporah", "Priscilla", "Mary of Bethany"] 
-            },
-            { 
-                label: "I'm grieving a deep loss", 
-                matches: ["Naomi", "Rizpah", "Job's Wife", "Mary (Mother of Jesus)", "Jephthah's Daughter"] 
-            }
+            { label: "I feel overlooked and forgotten", matches: ["Hagar", "Leah", "Woman with Issue of Blood", "Rizpah", "Tamar (2 Samuel)"] },
+            { label: "I've made mistakes I can't outgrow", matches: ["Rahab", "Mary Magdalene", "Bathsheba", "Woman Caught in Adultery", "Gomer"] },
+            { label: "I'm standing by someone else's pain", matches: ["Naomi", "Widow of Zarephath", "Martha", "Mary (Mother of Jesus)", "Rizpah"] },
+            { label: "I'm being called to lead, but it's lonely", matches: ["Deborah", "Esther", "Judith", "Priscilla", "Huldah"] },
+            { label: "I'm waiting—faithfully, painfully, uncertainly", matches: ["Hannah", "Sarah", "Elizabeth", "Anna the Prophetess"] },
+            { label: "I've experienced violation or injustice", matches: ["Tamar (2 Samuel)", "Bathsheba", "Susanna", "Woman Caught in Adultery"] },
+            { label: "I'm choosing to stay when leaving would be easier", matches: ["Ruth", "Zipporah", "Priscilla", "Mary of Bethany"] },
+            { label: "I'm grieving a deep loss", matches: ["Naomi", "Rizpah", "Job's Wife", "Mary (Mother of Jesus)", "Jephthah's Daughter"] }
         ];
 
-        // CLIENT-SIDE INTERPRETATION GENERATOR
-        // This generates the four lenses right in the browser - no API needed!
         class InterpretationGenerator {
             constructor(woman) {
                 this.woman = woman;
@@ -505,7 +280,84 @@ ${this.generateSatiricalQuill()}`;
                     worship: "True worship costs us something. It is not convenient; it is costly.",
                     witness: "To witness is to see and to speak. Both require courage.",
                     service: "Service is not servitude. It is strength offered freely.",
-                    teaching: "Teaching is not just passing knowledge; it is shaping hearts and minds for the future."
+                    teaching: "Teaching is not just passing knowledge; it is shaping hearts and minds for the future.",
+                    barrenness: "Barrenness is not emptiness. It is the ache of waiting for fullness.",
+                    longing: "Longing is the bridge between what is and what could be.",
+                    worthiness: "Our worth is not determined by who chooses us, but by who created us.",
+                    violation: "Violation shatters, but it does not define. Healing is possible.",
+                    deception: "Deception may achieve short-term goals, but truth builds lasting legacies.",
+                    power: "Power unchecked becomes tyranny. Power surrendered becomes service.",
+                    love: "Love is both gift and risk, both comfort and challenge.",
+                    obedience: "Obedience is not blind compliance. It is trust made visible.",
+                    pondering: "To ponder is to hold mystery without demanding immediate answers.",
+                    deliverance: "Deliverance is not just freedom from, but freedom to.",
+                    distraction: "Distraction steals presence. Devotion reclaims it.",
+                    healing: "Healing often begins with reaching out when reaching seems impossible.",
+                    mercy: "Mercy is justice tempered with compassion.",
+                    devotion: "Devotion is love that persists beyond reason.",
+                    hospitality: "Hospitality is love made tangible, welcome made real.",
+                    cruelty: "Cruelty diminishes both giver and receiver.",
+                    ambition: "Ambition can build kingdoms or destroy them.",
+                    generosity: "True generosity gives from lack as freely as from abundance.",
+                    seduction: "Seduction is power masked as desire.",
+                    innocence: "Innocence wrongly accused reveals the character of accusers.",
+                    suffering: "Suffering endured with faith becomes testimony.",
+                    inclusion: "Inclusion expands the circle of belonging.",
+                    thirst: "Spiritual thirst drives us to living water.",
+                    persistence: "Persistence is faith in motion.",
+                    intervention: "Intervention is love stepping into another's chaos.",
+                    foreignness: "Foreignness makes us strangers until love makes us family.",
+                    vows: "Vows spoken rashly exact terrible costs.",
+                    politics: "Politics can corrupt even the purest love.",
+                    storytelling: "Stories shape reality as much as reality shapes stories.",
+                    inquiry: "Inquiry is the beginning of wisdom.",
+                    idolatry: "Idolatry places creation above Creator.",
+                    provision: "Provision often comes through unexpected vessels.",
+                    murder: "Murder destroys not just lives but legacies.",
+                    authority: "Authority carries both privilege and responsibility.",
+                    timing: "Divine timing rarely matches human urgency.",
+                    salvation: "Salvation is both personal deliverance and communal liberation.",
+                    refusal: "Refusal to comply can be an act of dignity.",
+                    excellence: "Excellence in small things prepares us for great opportunities.",
+                    commerce: "Commerce conducted with integrity blesses communities.",
+                    desire: "Desire celebrated within covenant is beautiful.",
+                    beauty: "Beauty is both gift and responsibility.",
+                    adultery: "Adultery breaks covenant but doesn't break the possibility of restoration.",
+                    covenant: "Covenant is commitment that transcends feeling.",
+                    signs: "Signs point beyond themselves to deeper truths.",
+                    partnership: "Partnership multiplies impact and divides burden.",
+                    recognition: "Recognition affirms what has long been true.",
+                    childhood: "Children are not interruptions but invitations to faith.",
+                    evangelism: "Evangelism is sharing water from the well you've discovered.",
+                    accusation: "Accusation reveals more about accusers than accused.",
+                    freedom: "Freedom is the right to become who we were created to be.",
+                    anointing: "Anointing prepares for purposes we cannot yet see.",
+                    faithfulness: "Faithfulness is showing up even when hope seems distant.",
+                    community: "Community bears burdens too heavy for individuals.",
+                    business: "Business conducted ethically becomes ministry.",
+                    trust: "Trust is vulnerability freely chosen.",
+                    legacy: "Legacy is what we leave in hearts, not just in hands.",
+                    resurrection: "Resurrection proves that endings are not final.",
+                    greed: "Greed grasps for more and ends with less.",
+                    judgment: "Judgment without mercy is cruelty.",
+                    vindication: "Vindication often comes after the storm, not during it.",
+                    silence: "Silence can be both prison and protest.",
+                    reconciliation: "Reconciliation requires truth-telling and grace-giving.",
+                    vigil: "Vigil is love refusing to abandon the beloved.",
+                    wealth: "Wealth is a tool, not a trophy.",
+                    downfall: "Downfall often begins with pride disguised as certainty.",
+                    blessing: "Blessing is favor we cannot earn and do not deserve.",
+                    rivalry: "Rivalry poisons joy and distorts truth.",
+                    diplomacy: "Diplomacy is wisdom navigating conflict toward peace.",
+                    rebellion: "Rebellion can be prophetic or prideful—context matters.",
+                    release: "Release is trust that letting go makes space for what's next.",
+                    safety: "Safety is sometimes the enemy of calling.",
+                    restoration: "Restoration rewrites our endings.",
+                    bitterness: "Bitterness is grief turned inward.",
+                    violence: "Violence may win battles but rarely wins hearts.",
+                    victory: "Victory without honor is hollow.",
+                    mourning: "Mourning honors what was lost and makes space for what remains.",
+                    loss: "Loss carves capacity for deeper compassion."
                 };
 
                 const theme = this.woman.themes[0];
@@ -524,25 +376,38 @@ If you feel led to give, consider supporting organizations that serve women in s
 
             generateFractaSelf() {
                 const fractaTypes = {
-                    visibility: "The Seen Wanderer",
-                    exile: "The Wilderness Pioneer",
-                    survival: "The Resilient One",
-                    waiting: "The Patient Believer",
-                    promise: "The Promise Keeper",
-                    choice: "The Decision Maker",
-                    consequence: "The Truth Bearer",
-                    redemption: "The Redeemed Witness",
-                    faith: "The Leap Taker",
-                    protection: "The Shield",
-                    leadership: "The Reluctant Commander",
-                    courage: "The Brave Heart",
-                    justice: "The Justice Seeker",
-                    grief: "The Mourner",
-                    motherhood: "The Life Giver",
-                    worship: "The Devoted One",
-                    witness: "The Truth Teller",
-                    service: "The Servant Leader",
-                    teaching: "The Wisdom Keeper"
+                    visibility: "The Seen Wanderer", exile: "The Wilderness Pioneer", survival: "The Resilient One",
+                    waiting: "The Patient Believer", promise: "The Promise Keeper", choice: "The Decision Maker",
+                    consequence: "The Truth Bearer", redemption: "The Redeemed Witness", faith: "The Leap Taker",
+                    protection: "The Shield", leadership: "The Reluctant Commander", courage: "The Brave Heart",
+                    justice: "The Justice Seeker", grief: "The Mourner", motherhood: "The Life Giver",
+                    worship: "The Devoted One", witness: "The Truth Teller", service: "The Servant Leader",
+                    teaching: "The Wisdom Keeper", barrenness: "The Hopeful Wait", longing: "The Yearning Heart",
+                    worthiness: "The Beloved", violation: "The Survivor", deception: "The Strategist",
+                    power: "The Throne Holder", love: "The Lover", obedience: "The Yes-Sayer",
+                    pondering: "The Contemplative", deliverance: "The Freed One", distraction: "The Busy One",
+                    healing: "The Healed", mercy: "The Pardoned", devotion: "The Faithful",
+                    hospitality: "The Welcomer", cruelty: "The Wounded", ambition: "The Climber",
+                    generosity: "The Giver", seduction: "The Tempter", innocence: "The Accused",
+                    suffering: "The Endurer", inclusion: "The Outsider-In", thirst: "The Seeker",
+                    persistence: "The Persistent", intervention: "The Protector", foreignness: "The Stranger",
+                    vows: "The Bound", politics: "The Pawn", storytelling: "The Narrator",
+                    inquiry: "The Questioner", idolatry: "The Fallen", provision: "The Provided-For",
+                    murder: "The Usurper", authority: "The Prophet", timing: "The Patient Planner",
+                    salvation: "The Deliverer", refusal: "The Defiant", excellence: "The Excellent",
+                    commerce: "The Businesswoman", desire: "The Desired", beauty: "The Beautiful",
+                    adultery: "The Unfaithful", covenant: "The Committed", signs: "The Sign-Bearer",
+                    partnership: "The Partner", recognition: "The Witness", childhood: "The Child",
+                    evangelism: "The Messenger", accusation: "The Accused", freedom: "The Liberated",
+                    anointing: "The Anointer", faithfulness: "The Faithful Witness", community: "The Community Builder",
+                    business: "The Merchant", trust: "The Trusted", legacy: "The Legacy Leaver",
+                    resurrection: "The Raised", greed: "The Greedy", judgment: "The Judged",
+                    vindication: "The Vindicated", silence: "The Silenced", reconciliation: "The Reconciler",
+                    vigil: "The Vigilant", wealth: "The Wealthy", downfall: "The Fallen",
+                    blessing: "The Blessed", rivalry: "The Rival", diplomacy: "The Diplomat",
+                    rebellion: "The Rebel", release: "The Released", safety: "The Safe Haven",
+                    restoration: "The Restored", bitterness: "The Bitter", violence: "The Violent",
+                    victory: "The Victorious", mourning: "The Mourning", loss: "The Bereaved"
                 };
 
                 const theme = this.woman.themes[0];
@@ -609,16 +474,11 @@ In jest, truth; in truth, jest. — The Quill`;
             }
         }
 
-        // STORAGE & EXPORT HELPERS
         const JournalStorage = {
             save: (womanName, journalText) => {
                 const journals = JSON.parse(localStorage.getItem('sheSpeaksJournals') || '{}');
                 if (!journals[womanName]) journals[womanName] = [];
-                journals[womanName].push({
-                    id: Date.now(),
-                    text: journalText,
-                    date: new Date().toISOString()
-                });
+                journals[womanName].push({ id: Date.now(), text: journalText, date: new Date().toISOString() });
                 localStorage.setItem('sheSpeaksJournals', JSON.stringify(journals));
             },
             getAll: () => JSON.parse(localStorage.getItem('sheSpeaksJournals') || '{}')
@@ -669,7 +529,7 @@ In jest, truth; in truth, jest. — The Quill`;
             },
             
             share: (womanName, quote, platform) => {
-                const text = `${quote}\n\nShe Speaks: The Many Faces of Her™\n#SheSpeaks #BiblicalWomen #${womanName.replace(/\s/g, '')}`;
+                const text = `${quote}\\n\\nShe Speaks: The Many Faces of Her™\\n#SheSpeaks #BiblicalWomen #${womanName.replace(/\s/g, '')}`;
                 const url = window.location.href;
                 const urls = {
                     twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
@@ -681,7 +541,6 @@ In jest, truth; in truth, jest. — The Quill`;
             }
         };
 
-        // MAIN APP COMPONENT
         function App() {
             const [view, setView] = useState('home');
             const [searchTerm, setSearchTerm] = useState('');
@@ -691,9 +550,7 @@ In jest, truth; in truth, jest. — The Quill`;
             const [journals, setJournals] = useState({});
             const [isGenerating, setIsGenerating] = useState(false);
 
-            useEffect(() => {
-                setJournals(JournalStorage.getAll());
-            }, []);
+            useEffect(() => { setJournals(JournalStorage.getAll()); }, []);
 
             const filteredWomen = BIBLICAL_WOMEN.filter(w => 
                 w.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -706,13 +563,11 @@ In jest, truth; in truth, jest. — The Quill`;
                 setIsGenerating(true);
                 setView('woman');
                 setJournalText('');
-                
-                // Generate interpretation (happens instantly in browser!)
                 setTimeout(() => {
                     const generator = new InterpretationGenerator(woman);
                     setInterpretation(generator.generate());
                     setIsGenerating(false);
-                }, 100); // Tiny delay for UX
+                }, 100);
             };
 
             const handlePathwayClick = (pathway) => {
@@ -741,33 +596,20 @@ In jest, truth; in truth, jest. — The Quill`;
                     <div className="emotional-pathways">
                         <h3>🌿 What are you walking through right now?</h3>
                         {EMOTIONAL_PATHWAYS.map((pathway, idx) => (
-                            <button 
-                                key={idx}
-                                className="pathway-btn"
-                                onClick={() => handlePathwayClick(pathway)}
-                            >
+                            <button key={idx} className="pathway-btn" onClick={() => handlePathwayClick(pathway)}>
                                 • {pathway.label}
                             </button>
                         ))}
                     </div>
 
                     <div className="search-bar">
-                        <input
-                            type="text"
-                            className="search-input"
-                            placeholder="Search by name, role, or theme..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+                        <input type="text" className="search-input" placeholder="Search by name, role, or theme..."
+                            value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                     </div>
 
                     <div className="women-grid">
                         {filteredWomen.map((woman, idx) => (
-                            <div 
-                                key={idx}
-                                className="woman-card"
-                                onClick={() => handleSelectWoman(woman)}
-                            >
+                            <div key={idx} className="woman-card" onClick={() => handleSelectWoman(woman)}>
                                 <div className="testament">{woman.testament}</div>
                                 <h3>{woman.name}</h3>
                                 <p>{woman.role}</p>
@@ -788,9 +630,7 @@ In jest, truth; in truth, jest. — The Quill`;
 
                 return (
                     <>
-                        <button className="back-btn" onClick={() => setView('home')}>
-                            ← Back to All Women
-                        </button>
+                        <button className="back-btn" onClick={() => setView('home')}>← Back to All Women</button>
 
                         <div className="interpretation-view">
                             <div className="interpretation-header">
@@ -808,24 +648,12 @@ In jest, truth; in truth, jest. — The Quill`;
 
                                     <div className="journal-section">
                                         <h3>✍️ Your Personal Reflection</h3>
-                                        <textarea
-                                            className="journal-textarea"
-                                            placeholder="Write your reflection here..."
-                                            value={journalText}
-                                            onChange={(e) => setJournalText(e.target.value)}
-                                        />
+                                        <textarea className="journal-textarea" placeholder="Write your reflection here..."
+                                            value={journalText} onChange={(e) => setJournalText(e.target.value)} />
                                         <div className="action-buttons">
-                                            <button className="btn" onClick={handleSaveJournal}>
-                                                💾 Save Journal Entry
-                                            </button>
-                                            <button 
-                                                className="btn btn-secondary" 
-                                                onClick={() => ExportHelper.downloadPDF(
-                                                    selectedWoman.name, 
-                                                    interpretation, 
-                                                    journals[selectedWoman.name]
-                                                )}
-                                            >
+                                            <button className="btn" onClick={handleSaveJournal}>💾 Save Journal Entry</button>
+                                            <button className="btn btn-secondary" onClick={() => ExportHelper.downloadPDF(
+                                                selectedWoman.name, interpretation, journals[selectedWoman.name])}>
                                                 📄 Export as PDF
                                             </button>
                                         </div>
@@ -852,10 +680,7 @@ In jest, truth; in truth, jest. — The Quill`;
                 <div className="app-container">
                     {view === 'home' && renderHome()}
                     {view === 'woman' && selectedWoman && renderWoman()}
-                    
-                    <div className="footer">
-                        © Adenike Omoregbee. All rights reserved.
-                    </div>
+                    <div className="footer">© Adenike Omoregbee. All rights reserved.</div>
                 </div>
             );
         }
