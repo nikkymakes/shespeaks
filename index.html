@@ -85,6 +85,27 @@
             border-bottom: 2px solid #e0d5c7; margin-bottom: 2rem;
         }
         .interpretation-header h2 { color: #8b4513; font-size: 2rem; margin-bottom: 1rem; }
+        
+        /* SCRIPTURE SECTION */
+        .scripture-section {
+            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #8b4513;
+            text-align: center;
+        }
+        .scripture-section h3 {
+            color: #8b4513;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .scripture-reference {
+            font-size: 1rem;
+            color: #5c4033;
+            font-style: italic;
+        }
+        
         .interpretation-content {
             line-height: 1.9; font-size: 1.05rem; color: #4a3728;
             white-space: pre-wrap; margin-bottom: 2rem;
@@ -450,7 +471,7 @@ The moral: Our choices, however small or flawed, write the stories that others w
             generateSatiricalQuill() {
                 return `🪞 Satirical Quill™
 
-Let's talk about ${this.woman.name}. The biblical writers gave her ${this.woman.role.toLowerCase()} status, which in ancient terms means she got maybe three verses while the men got entire chapters. Classic.
+Let's talk about ${this.woman.name}. The biblical writers gave her "${this.woman.role.toLowerCase()}" status, which in ancient terms means she got maybe three verses while the men got entire chapters. Classic.
 
 Her story involves ${this.woman.themes[0]}, and naturally, the interpretations over the centuries have been... interesting. She's been turned into a moral lesson, a cautionary tale, a footnote in someone else's heroic journey. Because apparently, women can't just be complex humans with their own narratives.
 
@@ -529,7 +550,7 @@ In jest, truth; in truth, jest. — The Quill`;
             },
             
             share: (womanName, quote, platform) => {
-                const text = `${quote}\\n\\nShe Speaks: The Many Faces of Her™\\n#SheSpeaks #BiblicalWomen #${womanName.replace(/\s/g, '')}`;
+                const text = `${quote}\n\nShe Speaks: The Many Faces of Her™\n#SheSpeaks #BiblicalWomen #${womanName.replace(/\s/g, '')}`;
                 const url = window.location.href;
                 const urls = {
                     twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
@@ -580,7 +601,7 @@ In jest, truth; in truth, jest. — The Quill`;
                 if (journalText.trim() && selectedWoman) {
                     JournalStorage.save(selectedWoman.name, journalText.trim());
                     setJournals(JournalStorage.getAll());
-                    alert('Journal entry saved!');
+                    alert('✅ Journal saved!\n\nYour reflection has been saved to your browser and will be here when you return.');
                     setJournalText('');
                 }
             };
@@ -638,6 +659,12 @@ In jest, truth; in truth, jest. — The Quill`;
                                 <div style={{fontSize: '0.9rem', color: '#5c4033', marginTop: '0.5rem'}}>
                                     {selectedWoman.testament} • {selectedWoman.role}
                                 </div>
+                            </div>
+
+                            {/* SCRIPTURE REFERENCE SECTION */}
+                            <div className="scripture-section">
+                                <h3>📖 Biblical Reference</h3>
+                                <div className="scripture-reference">{selectedWoman.scripture}</div>
                             </div>
 
                             {isGenerating ? (
